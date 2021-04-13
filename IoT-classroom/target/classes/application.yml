@@ -1,0 +1,9 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    name: iot_classroom
+    url: jdbc:mysql://localhost:3306/iot_classroom?useSSL=false
+    username: root
+    password: 19951126
+    driver-class-name: com.mysql.jdbc.Driver
