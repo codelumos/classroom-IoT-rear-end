@@ -3,7 +3,7 @@ server:
 spring:
   datasource:
     name: iot_classroom
-    url: jdbc:mysql://localhost:3306/iot_classroom?characterEncoding=utf8&useUnicode=true&serverTimezone=Asia/Shanghai&useSSL=false
+    url: jdbc:mysql://172.19.241.2:3306/iot_classroom?characterEncoding=utf8&useUnicode=true&serverTimezone=Asia/Shanghai&useSSL=false
     username: root
-    password: 19951126
+    password: 224Mf12345!
     driver-class-name: com.mysql.cj.jdbc.Driver
