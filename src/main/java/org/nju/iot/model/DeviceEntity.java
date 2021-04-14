@@ -21,5 +21,6 @@ public class DeviceEntity {
 	private String deviceName;
 	private int deviceType;
 	private Timestamp createTime;
+	private String status;
 
 }

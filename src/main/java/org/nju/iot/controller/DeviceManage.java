@@ -1,6 +1,7 @@
 package org.nju.iot.controller;
 
 
+import org.nju.iot.form.TestForm;
 import org.nju.iot.model.DeviceEntity;
 import org.nju.iot.service.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +38,8 @@ public class DeviceManage {
 
 	//设备调试
 	@RequestMapping(value = "/test", method = RequestMethod.POST)
-	public void deviceTest() {
-		deviceService.deviceTest();
+	public void deviceTest(TestForm form) {
+		deviceService.deviceTest(form);
 	}
 
 	//设备分组

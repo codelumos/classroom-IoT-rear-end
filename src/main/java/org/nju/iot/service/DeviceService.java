@@ -2,6 +2,7 @@ package org.nju.iot.service;
 
 import org.nju.iot.dao.DeviceDao;
 import org.nju.iot.dao.RequestLogDao;
+import org.nju.iot.form.TestForm;
 import org.nju.iot.model.DeviceEntity;
 import org.nju.iot.model.RequestLog;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,13 @@ public class DeviceService {
 		return true;
 	}
 
-	public void deviceTest(){
+	public void deviceTest(TestForm form){
+		DeviceEntity deviceEntity = new DeviceEntity();
+		deviceEntity.setCreateTime(form.getCreateTime());
+		deviceEntity.setDeviceName(form.getDeviceName());
+		deviceDao.save(deviceEntity);
+		mqttPublish();
+
 	}
 
 	public List<DeviceEntity> getDeviceList() {
@@ -45,6 +52,11 @@ public class DeviceService {
 	public boolean deleteDevice(long deviceId) {
 		deviceDao.deleteById(deviceId);
 		return true;
+	}
+
+	//mqtt
+	private void mqttPublish(){
+
 	}
 
 }
