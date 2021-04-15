@@ -13,11 +13,11 @@ import java.sql.Timestamp;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = RequestLog.TABLE)
-public class RequestLog {
+@Table(name = RequestLogEntity.TABLE)
+public class RequestLogEntity {
 	public static final String TABLE = "request_log";
 	@Id
 	private long id;
-	private String deviceName;
+	private long deviceId;
 	private Timestamp requestTime;
 }

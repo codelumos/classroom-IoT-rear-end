@@ -9,20 +9,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Timestamp;
 
-@Data
 @Entity
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
-@Table(name = DeviceEntity.TABLE)
-public class DeviceEntity {
-	public static final String TABLE = "device";
+@AllArgsConstructor
+@Table(name = GroupEntity.TABLE)
+public class GroupEntity {
+	public static final String TABLE = "group";
 	@Id
 	private long id;
-	private String deviceName;
-	private int deviceType;
+	private String groupName;
 	private Timestamp createTime;
-	private String status;
-	private Timestamp onlineTime;
-	private long groupId;
-
 }
