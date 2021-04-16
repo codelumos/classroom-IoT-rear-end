@@ -1,5 +1,8 @@
 package org.nju.iot.service;
 
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.nju.iot.dao.DeviceDao;
 import org.nju.iot.dao.RequestLogDao;
 import org.nju.iot.form.DeviceForm;
@@ -34,7 +37,36 @@ public class DeviceService {
 		device.setCreateTime(new Timestamp(System.currentTimeMillis()));
 		device.setStatus(form.getStatus());
 		device.setGroupId(form.getGroupId());
-		return deviceDao.save(device).getId();
+		deviceDao.save(device);
+
+		//
+		mqttService.connect();
+		mqttService.setCallback(new MqttCallback() {
+			public void connectionLost(Throwable cause) {
+				System.out.println("add connectionLost");
+			}
+			public void messageArrived(String topic, MqttMessage message) throws Exception {
+				//收到验证请求，查询数据库，返回验证结果
+				if(topic.equals("/verify/update")){
+					String credential=new String(message.getPayload());
+					String verifyResult="";
+					if(deviceDao.validateApprove(credential))
+						verifyResult="accept";
+					else
+						verifyResult="refuse";
+					mqttService.publish("/verify/get",credential+"@"+verifyResult,1);
+				}
+			}
+			public void deliveryComplete(IMqttDeliveryToken token) {
+				System.out.println("deliveryComplete---------" + token.isComplete());
+			}
+		});
+		//订阅连接用topic
+		mqttService.subscribe("/verify/update",1);
+
+		ClientService clientService=new ClientService();
+		clientService.createDevice(form.getId(),form.getApprove(),form.getDeviceType());
+		return device.getId();
 	}
 
 	//设备接入
@@ -81,7 +113,6 @@ public class DeviceService {
 		deviceDao.updateStatus(status,deviceId);
 
 		//向该设备对应get topic发送消息，通知设备更新状态
-		mqttService.Mqtt("paihuai");
 		mqttService.publish("/shadow/get/" + deviceId,status,qos);
 		mqttService.close();
 	}
