@@ -24,7 +24,6 @@ public class DeviceManageController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public long addDevice(@RequestBody DeviceForm form) {
 		return deviceService.addDevice(form);
-// TODO: 2021/4/12 设备请求日志
 	}
 
 	//设备接入

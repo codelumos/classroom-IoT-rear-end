@@ -24,5 +24,6 @@ public class DeviceEntity {
 	private String status;
 	private Timestamp onlineTime;
 	private long groupId;
+	private String approve;
 
 }
