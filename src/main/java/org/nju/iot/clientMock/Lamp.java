@@ -1,9 +1,7 @@
-package org.nju.iot.service;
+package org.nju.iot.clientMock;
 
 import com.alibaba.fastjson.JSONObject;
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.MqttCallback;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.nju.iot.clientMock.Device;
 
 public class Lamp implements Device {
     public long device_id;

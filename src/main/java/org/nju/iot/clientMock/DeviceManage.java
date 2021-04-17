@@ -1,17 +1,14 @@
-package org.nju.iot.service;
+package org.nju.iot.clientMock;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
-import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class DeviceManage {
-    private static Map<Long,Device> deviceMap=new HashMap<>();//设备集合
+    private static Map<Long, Device> deviceMap=new HashMap<>();//设备集合
     public DeviceManage(){
     }
     public static boolean hasDevice(long device_id){

@@ -1,29 +1,21 @@
 package org.nju.iot.service;
 
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.MqttCallback;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.nju.iot.VO.DeviceVO;
-import org.nju.iot.VO.GroupVO;
+import org.nju.iot.clientMock.DeviceManage;
+import org.nju.iot.clientMock.MqttService;
 import org.nju.iot.dao.DeviceDao;
 //import org.nju.iot.dao.RequestLogDao;
-import org.nju.iot.dao.GroupDao;
 import org.nju.iot.dao.RequestLogDao;
-import org.nju.iot.form.DeviceForm;
 import org.nju.iot.model.DeviceEntity;
 //import org.nju.iot.model.RequestLogEntity;
-import org.nju.iot.model.GroupEntity;
-import org.nju.iot.model.RequestLogEntity;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class DeviceService {
