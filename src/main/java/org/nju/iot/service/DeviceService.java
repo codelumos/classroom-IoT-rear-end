@@ -8,7 +8,9 @@ import org.nju.iot.dao.RequestLogDao;
 import org.nju.iot.form.DeviceForm;
 import org.nju.iot.model.DeviceEntity;
 import org.nju.iot.model.RequestLogEntity;
+import org.nju.iot.utils.SpringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -20,12 +22,10 @@ public class DeviceService {
 	private DeviceDao deviceDao;
 	@Autowired
 	private RequestLogDao requestLogDao;
-	@Autowired
-	private MqttService mqttService;
 
-	private static final int QOS1 = 1;
-	private static final int QOS2 = 2;
-	private static final int QOS3 = 3;
+	private static final int QOS1 = 0;
+	private static final int QOS2 = 1;
+	private static final int QOS3 = 2;
 
 
 	//添加设备
@@ -37,36 +37,19 @@ public class DeviceService {
 		device.setCreateTime(new Timestamp(System.currentTimeMillis()));
 		device.setStatus(form.getStatus());
 		device.setGroupId(form.getGroupId());
+		device.setCredential(form.getCredential());
 		deviceDao.save(device);
 
-		//
-		mqttService.connect();
-		mqttService.setCallback(new MqttCallback() {
-			public void connectionLost(Throwable cause) {
-				System.out.println("add connectionLost");
-			}
-			public void messageArrived(String topic, MqttMessage message) throws Exception {
-				//收到验证请求，查询数据库，返回验证结果
-				if(topic.equals("/verify/update")){
-					String credential=new String(message.getPayload());
-					String verifyResult="";
-					if(deviceDao.validateApprove(credential))
-						verifyResult="accept";
-					else
-						verifyResult="refuse";
-					mqttService.publish("/verify/get",credential+"@"+verifyResult,1);
-				}
-			}
-			public void deliveryComplete(IMqttDeliveryToken token) {
-				System.out.println("deliveryComplete---------" + token.isComplete());
-			}
-		});
-		//订阅连接用topic
-		mqttService.subscribe("/verify/update",1);
-
-		ClientService clientService=new ClientService();
-		clientService.createDevice(form.getId(),form.getApprove(),form.getDeviceType());
-		return device.getId();
+		DeviceManage.Verify(form.getId(),form.getCredential(),form.getDeviceType());
+		//查看是否成功添加设备
+		if(DeviceManage.hasDevice(form.getId())){
+			System.out.println("设备添加成功");
+			return form.getId();
+		}
+		else{
+			System.out.println("设备添加失败");
+			return -1;
+		}
 	}
 
 	//设备接入
@@ -113,8 +96,7 @@ public class DeviceService {
 		deviceDao.updateStatus(status,deviceId);
 
 		//向该设备对应get topic发送消息，通知设备更新状态
-		mqttService.publish("/shadow/get/" + deviceId,status,qos);
-		mqttService.close();
+		MqttService.publish(String.valueOf(deviceId),"/shadow/get/" + deviceId,status,qos);
 	}
 
 }

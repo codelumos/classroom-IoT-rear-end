@@ -2,6 +2,7 @@ package org.nju.iot.service;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,46 +11,54 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DeviceManage {
-    private static Map<String,Device> deviceMap=new HashMap<>();//设备集合
-    private MqttService mqttService=new MqttService();//用于验证设备证书
-    private String verifiedCredential;
-    private String verifyResult;
+    private static Map<Long,Device> deviceMap=new HashMap<>();//设备集合
     public DeviceManage(){
-        verifiedCredential="";
-        verifyResult="";
-
-        mqttService.connect();
-        mqttService.setCallback(new MqttCallback() {
-            public void connectionLost(Throwable cause) {
-                System.out.println("DeviceManage connectionLost");
-            }
-            public void messageArrived(String topic, MqttMessage message) throws Exception {
-                //收到验证结果消息
-                if(topic.equals("/verify/get")){
-                    String[] result=new String(message.getPayload()).split("@");
-                    verifiedCredential=result[0];
-                    verifyResult=result[1];
-                }
-            }
-            public void deliveryComplete(IMqttDeliveryToken token) {
-                System.out.println("DeviceManage deliveryComplete---------" + token.isComplete());
-            }
-        });
-        mqttService.subscribe("/verify/get",1);
     }
-    //发送消息，请求验证
-    public boolean Verify(String credential){
-        mqttService.publish("/verify/update",credential,1);
-
-        if(verifiedCredential.equals(credential)&&verifyResult.equals("accept"))
+    public static boolean hasDevice(long device_id){
+        if(deviceMap.get(device_id)!=null)
             return true;
         else
             return false;
     }
-    public void addDevice(long device_id,String credential,int type){
+    //验证
+    public static void Verify(long device_id,String credential,int type){
+        //发送消息，请求验证
+        if(MqttService.hasClient("device_end"))
+            MqttService.publish("device_end","/verify/update",device_id+"@"+credential+"@"+type,1);
+        else
+            System.out.println("未添加设备管理用client");
+        try {
+            Thread.sleep(2000);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    //添加设备
+    public static void addDevice(long device_id,String credential,int type){
         if(type==1){
             Lamp lamp=new Lamp(device_id,credential);
-            deviceMap.put(credential,lamp);
+            deviceMap.put(device_id,lamp);
+            //添加设备用client
+            MqttService.addClient(String.valueOf(device_id));
+            MqttService.setCallback(String.valueOf(device_id),new MqttCallback() {
+                public void connectionLost(Throwable cause) {
+                    System.out.println(device_id+" connectionLost");
+                }
+                public void messageArrived(String topic, MqttMessage message) throws Exception {
+                    //处理接收到的消息
+                    //根据设备影子更新设备状态
+//                    String status=new String(message.getPayload());
+//                    DeviceManage.setDeviceStatus(device_id,status);
+
+                    System.out.println("Topic:"+topic+"------设备更新完成");
+                }
+                public void deliveryComplete(IMqttDeliveryToken token) {
+                    System.out.println(device_id+" deliveryComplete---------" + token.isComplete());
+                }
+            });
+            //订阅自身的get topic
+            MqttService.subscribe(String.valueOf(device_id),"/shadow/get/"+device_id,1);
         }
         if(type==2){
 
@@ -57,5 +66,9 @@ public class DeviceManage {
         if(type==3){
 
         }
+    }
+    public static void setDeviceStatus(long device_id,String status){
+        Device device=deviceMap.get(device_id);
+        device.setStatus(status);
     }
 }

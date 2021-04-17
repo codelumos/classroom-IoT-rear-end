@@ -11,5 +11,5 @@ public class DeviceForm {
 	private int deviceType;
 	private String status;
 	private long groupId;
-	private String approve;
+	private String credential;
 }

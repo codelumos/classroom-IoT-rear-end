@@ -4,30 +4,16 @@ import com.alibaba.fastjson.JSONObject;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.springframework.stereotype.Service;
 
-public class Lamp extends Device {
-    private MqttService mqttService;
+public class Lamp implements Device {
+    public long device_id;
+    public String credential;
+    public boolean on_off;
     public Lamp(long device_id,String credential){
-        super(device_id,credential);
-        mqttService=new MqttService();
-        mqttService.setCallback(new MqttCallback() {
-            public void connectionLost(Throwable cause) {
-                System.out.println("connectionLost");
-            }
-            public void messageArrived(String topic, MqttMessage message) throws Exception {
-                //处理接收到的消息
-                //根据设备影子更新设备状态
-                String status=new String(message.getPayload());
-                setStatus(status);
+        this.device_id=device_id;
+        this.credential=credential;
+        on_off=false;
 
-                System.out.println("Topic:"+topic+"--------Status:"+status+"------设备更新完成");
-            }
-            public void deliveryComplete(IMqttDeliveryToken token) {
-                System.out.println("deliveryComplete---------" + token.isComplete());
-            }
-        });
-        mqttService.subscribe("/shadow/get/"+String.valueOf(device_id),2);
     }
     //更新设备状态
     public void setStatus(String status){
@@ -36,5 +22,6 @@ public class Lamp extends Device {
         JSONObject json_status=JSONObject.parseObject(state);
 
         on_off=json_status.getBoolean("on_off");
+        System.out.println("device_id:"+device_id+"credential:"+credential+"  on_off:"+on_off);
     }
 }

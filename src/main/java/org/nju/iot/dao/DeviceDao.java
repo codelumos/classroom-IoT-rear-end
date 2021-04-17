@@ -15,6 +15,6 @@ public interface DeviceDao extends JpaRepository<DeviceEntity,Long> {
 	@Transactional
 	@Query(value = "update " + DeviceEntity.TABLE + " t set t.status=:status where t.id=:id", nativeQuery = true)
 	boolean updateStatus(@Param("status") String status, @Param("id") long id);
-	@Query(value = "select t.id from " + DeviceEntity.TABLE + " t where t.approve=:approve", nativeQuery = true)
-	boolean validateApprove(@Param("approve") String approve);
+	@Query(value = "select t.id from " + DeviceEntity.TABLE + " t where t.credential=:credential", nativeQuery = true)
+	long validateApprove(@Param("credential") String credential);
 }
