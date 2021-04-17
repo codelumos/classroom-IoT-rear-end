@@ -23,6 +23,7 @@ public class DeviceEntity {
 	private Timestamp createTime;
 	private String status;
 	private Timestamp onlineTime;
-	private long groupId;
+	private long groupId = 0;
 	private String credential;
+
 }
