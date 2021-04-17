@@ -15,7 +15,7 @@ public class RuleController {
 
 	@RequestMapping(value = "/rule", method = RequestMethod.POST)
 	public void rule() {
-		ruleService.rule();
+//		ruleService.rule();
 	}
 
 }

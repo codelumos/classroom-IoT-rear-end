@@ -3,16 +3,27 @@ package org.nju.iot.service;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.nju.iot.VO.DeviceVO;
+import org.nju.iot.VO.GroupVO;
 import org.nju.iot.dao.DeviceDao;
+//import org.nju.iot.dao.RequestLogDao;
+import org.nju.iot.dao.GroupDao;
 import org.nju.iot.dao.RequestLogDao;
 import org.nju.iot.form.DeviceForm;
 import org.nju.iot.model.DeviceEntity;
+//import org.nju.iot.model.RequestLogEntity;
+import org.nju.iot.model.GroupEntity;
 import org.nju.iot.model.RequestLogEntity;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class DeviceService {
@@ -29,17 +40,19 @@ public class DeviceService {
 
 
 	//添加设备
-	public long addDevice(DeviceForm form) {
+	public long addDevice(String deviceName, int deviceType) {
 		DeviceEntity device = new DeviceEntity();
-		device.setId(form.getId());
-		device.setDeviceName(form.getDeviceName());
-		device.setDeviceType(form.getDeviceType());
+		device.setDeviceName(deviceName);
+		device.setDeviceType(deviceType);
 		device.setCreateTime(new Timestamp(System.currentTimeMillis()));
-		device.setStatus(form.getStatus());
-		device.setGroupId(form.getGroupId());
-		deviceDao.save(device);
+		String uuid = UUID.randomUUID().toString().replaceAll("-","");
+		device.setCredential(uuid);
+		return deviceDao.save(device).getId();
+	}
 
-		//
+	//设备烧录
+	public boolean deviceConnection(String credential) {
+		DeviceEntity deviceEntity = deviceDao.findByCredential(credential);
 		mqttService.connect();
 		mqttService.setCallback(new MqttCallback() {
 			public void connectionLost(Throwable cause) {
@@ -65,15 +78,10 @@ public class DeviceService {
 		mqttService.subscribe("/verify/update",1);
 
 		ClientService clientService=new ClientService();
-		clientService.createDevice(form.getId(),form.getApprove(),form.getDeviceType());
-		return device.getId();
-	}
+		clientService.createDevice(deviceEntity.getId(),deviceEntity.getCredential(),deviceEntity.getDeviceType());
 
-	//设备接入
-	public boolean deviceConnection(long deviceId, String deviceName, int type) {
 		RequestLogEntity log = new RequestLogEntity();
-		log.setId(deviceId);
-		log.setDeviceId(deviceId);
+		log.setDeviceId(deviceEntity.getId());
 		log.setRequestTime(new Timestamp(System.currentTimeMillis()));
 		requestLogDao.save(log);
 		return true;
@@ -85,23 +93,36 @@ public class DeviceService {
 	}
 
 	//获取设备列表
-	public List<DeviceEntity> getDeviceList() {
-		return deviceDao.findAll();
+	public List<DeviceVO> getDeviceList() {
+		List<DeviceEntity> entities = deviceDao.findAll();
+		List<DeviceVO> deviceVOS = new ArrayList<>();
+		entities.forEach(e -> {
+			DeviceVO deviceVO = new DeviceVO();
+			deviceVO.setId(e.getId());
+			deviceVO.setDeviceName(e.getDeviceName());
+			deviceVO.setDeviceType(e.getDeviceType());
+			deviceVO.setCreateTime(e.getCreateTime());
+			deviceVOS.add(deviceVO);
+		});
+		return deviceVOS;
 	}
 
 	//获取单个设备详情
-	public DeviceEntity getDetail(long deviceId){
-		return deviceDao.getOne(deviceId);
+	public DeviceVO getDetail(long deviceId){
+		DeviceEntity deviceEntity = deviceDao.getOne(deviceId);
+		DeviceVO deviceVO = new DeviceVO();
+		BeanUtils.copyProperties(deviceEntity, deviceVO);
+		return deviceVO;
 	}
 
 	//设备影子
-	public String getShadow(long deviceId) {
-		return deviceDao.getOne(deviceId).getStatus();
+	public boolean getShadow(long deviceId) {
+		return true;
 	}
 
 	//删除设备
-	public boolean deleteDevice(long deviceId) {
-		deviceDao.deleteById(deviceId);
+	public boolean deleteDevices(List<Long> deviceIds) {
+		deviceIds.forEach(d ->deviceDao.deleteById(d));
 		return true;
 	}
 

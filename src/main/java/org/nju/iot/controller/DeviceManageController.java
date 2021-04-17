@@ -1,11 +1,9 @@
 package org.nju.iot.controller;
 
 
-import org.nju.iot.form.DeviceForm;
-import org.nju.iot.model.DeviceEntity;
+import org.nju.iot.VO.DeviceVO;
 import org.nju.iot.service.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,16 +20,39 @@ public class DeviceManageController {
 
 	//创建设备
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public long addDevice(@RequestBody DeviceForm form) {
-		return deviceService.addDevice(form);
+	public long addDevice(@RequestParam String deviceName,
+												@RequestParam int deviceType) {
+		return deviceService.addDevice(deviceName, deviceType);
 	}
 
-	//设备接入
-	@RequestMapping(value = "/connection", method = RequestMethod.POST)
-	public boolean deviceConnection(@RequestParam long deviceId,
-																	@RequestParam String deviceName,
-																	@RequestParam int type) {
-		return deviceService.deviceConnection(deviceId, deviceName, type);
+	//设备烧录
+	@RequestMapping(value = "/program", method = RequestMethod.POST)
+	public boolean deviceProgram(@RequestParam String credential) {
+		return deviceService.deviceConnection(credential);
+	}
+
+	//设备列表
+	@RequestMapping(value = "/overview", method = RequestMethod.GET)
+	public List<DeviceVO> getAllDevices() {
+		return deviceService.getDeviceList();
+	}
+
+	//设备详情
+	@RequestMapping(value = "/detail", method = RequestMethod.GET)
+	public DeviceVO getDeviceInfoById(@RequestParam long deviceId) {
+		return deviceService.getDetail(deviceId);
+	}
+
+	//设备影子
+	@RequestMapping(value = "/edit/shadow", method = RequestMethod.POST)
+	public boolean getShadow(@RequestParam long deviceId) {
+		return deviceService.getShadow(deviceId);
+	}
+
+	//删除设备
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public boolean deleteDevices(@RequestParam List<Long> deviceIds) {
+		return deviceService.deleteDevices(deviceIds);
 	}
 
 	//设备调试
@@ -40,29 +61,4 @@ public class DeviceManageController {
 												 @RequestParam long deviceId) {
 		deviceService.deviceTest(status, deviceId);
 	}
-
-	//设备列表
-	@RequestMapping(value = "/overview", method = RequestMethod.GET)
-	public List<DeviceEntity> getDeviceList() {
-		return deviceService.getDeviceList();
-	}
-
-	//设备详情
-	@RequestMapping(value = "/detail", method = RequestMethod.GET)
-	public DeviceEntity getDetail(@RequestParam long deviceId) {
-		return deviceService.getDetail(deviceId);
-	}
-
-	//设备影子
-	@RequestMapping(value = "/shadow", method = RequestMethod.GET)
-	public String getShadow(@RequestParam long deviceId) {
-		return deviceService.getShadow(deviceId);
-	}
-
-	//删除设备
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public boolean deleteDevice(@RequestParam long deviceId) {
-		return deviceService.deleteDevice(deviceId);
-	}
-
 }
