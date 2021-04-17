@@ -31,8 +31,6 @@ public class DeviceService {
 	private DeviceDao deviceDao;
 	@Autowired
 	private RequestLogDao requestLogDao;
-	@Autowired
-	private MqttService mqttService;
 
 	private static final int QOS1 = 1;
 	private static final int QOS2 = 2;
@@ -52,39 +50,18 @@ public class DeviceService {
 
 	//设备烧录
 	public boolean deviceConnection(String credential) {
-		DeviceEntity deviceEntity = deviceDao.findByCredential(credential);
-		mqttService.connect();
-		mqttService.setCallback(new MqttCallback() {
-			public void connectionLost(Throwable cause) {
-				System.out.println("add connectionLost");
-			}
-			public void messageArrived(String topic, MqttMessage message) throws Exception {
-				//收到验证请求，查询数据库，返回验证结果
-				if(topic.equals("/verify/update")){
-					String credential=new String(message.getPayload());
-					String verifyResult="";
-					if(deviceDao.validateApprove(credential))
-						verifyResult="accept";
-					else
-						verifyResult="refuse";
-					mqttService.publish("/verify/get",credential+"@"+verifyResult,1);
-				}
-			}
-			public void deliveryComplete(IMqttDeliveryToken token) {
-				System.out.println("deliveryComplete---------" + token.isComplete());
-			}
-		});
-		//订阅连接用topic
-		mqttService.subscribe("/verify/update",1);
-
-		ClientService clientService=new ClientService();
-		clientService.createDevice(deviceEntity.getId(),deviceEntity.getCredential(),deviceEntity.getDeviceType());
-
-		RequestLogEntity log = new RequestLogEntity();
-		log.setDeviceId(deviceEntity.getId());
-		log.setRequestTime(new Timestamp(System.currentTimeMillis()));
-		requestLogDao.save(log);
-		return true;
+		DeviceEntity deviceEntity= deviceDao.findByCredential(credential);
+		//验证并添加
+		DeviceManage.Verify(deviceEntity.getId(),deviceEntity.getCredential(),deviceEntity.getDeviceType());
+		//查看是否成功添加设备
+		if(DeviceManage.hasDevice(deviceEntity.getId())){
+			System.out.println("设备添加成功");
+			return true;
+		}
+		else{
+			System.out.println("设备添加失败");
+			return false;
+		}
 	}
 
 	//设备调试
@@ -134,8 +111,8 @@ public class DeviceService {
 		deviceDao.updateStatus(status,deviceId);
 
 		//向该设备对应get topic发送消息，通知设备更新状态
-		mqttService.publish("/shadow/get/" + deviceId,status,qos);
-		mqttService.close();
+		MqttService.publish(String.valueOf(deviceId),"/shadow/get/" + deviceId,status,qos);
 	}
+
 
 }

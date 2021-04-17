@@ -19,7 +19,7 @@ public interface DeviceDao extends JpaRepository<DeviceEntity,Long> {
 	void updateStatus(@Param("status") String status, @Param("id") long id);
 
 	@Query(nativeQuery = true, value = "select id from device where credential=:credential")
-	boolean validateApprove(@Param("credential") String credential);
+	Long validateApprove(@Param("credential") String credential);
 
 	@Query(nativeQuery = true, value = "select * from device where credential=:credential")
 	DeviceEntity findByCredential(@Param("credential") String credential);
