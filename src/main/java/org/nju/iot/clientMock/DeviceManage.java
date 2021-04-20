@@ -40,10 +40,14 @@ public class DeviceManage {
             ClientService.setDeviceCallback(String.valueOf(device_id));
         }
         if(type==1){
-
+            AirCondition airCondition=new AirCondition(device_id,credential);
+            deviceMap.put(device_id,airCondition);
+            ClientService.setDeviceCallback(String.valueOf(device_id));
         }
         if(type==2){
-
+            Projector projector=new Projector(device_id,credential);
+            deviceMap.put(device_id,projector);
+            ClientService.setDeviceCallback(String.valueOf(device_id));
         }
     }
     public static void setDeviceStatus(long device_id,String status){
