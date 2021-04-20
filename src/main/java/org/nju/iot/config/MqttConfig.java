@@ -11,12 +11,15 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Date;
+
 @Configuration
 public class MqttConfig {
+    public static String client_id1="rear_end"+String.format("%ts", new Date());;
+    public static String client_id2="device_end"+String.format("%ts", new Date());
     @Bean
     public void init(){
         //新建后端用client
-        String client_id1="rear_end";
         MqttService.addClient(client_id1);
         MqttService.setCallback(client_id1,new MqttCallback() {
             public void connectionLost(Throwable cause) {
@@ -34,7 +37,7 @@ public class MqttConfig {
                 String[] query=verifyQuery.split("@");
                 String device_id=query[0];
                 String credential=query[1];
-                if(dd.validateApprove(credential)==Long.valueOf(device_id)){//验证成功
+                if(dd.validateApprove(credential)==Long.parseLong(device_id)){//验证成功
                     System.out.println("验证成功");
                     //订阅对应设备update topic
                     MqttService.subscribe(client_id1,"/shadow/update/"+device_id,1);
@@ -54,7 +57,6 @@ public class MqttConfig {
         MqttService.subscribe(client_id1,"/verify/update",1);
 
         //设备管理端用client
-        String client_id2="device_end";
         MqttService.addClient(client_id2);
         MqttService.setCallback(client_id2,new MqttCallback() {
             public void connectionLost(Throwable cause) {
@@ -69,7 +71,7 @@ public class MqttConfig {
                     //添加设备用client
                     MqttService.addClient(result[0]);
                     //添加设备
-                    DeviceManage.addDevice(Long.valueOf(result[0]),result[1],Integer.valueOf(result[2]));
+                    DeviceManage.addDevice(Long.parseLong(result[0]),result[1],Integer.parseInt(result[2]));
                     System.out.println("添加完毕");
                 }
                 else
