@@ -1,7 +1,6 @@
 package org.nju.iot.clientMock;
 
 import com.alibaba.fastjson.JSONObject;
-import org.nju.iot.clientMock.Device;
 
 public class Lamp implements Device {
     public long device_id;

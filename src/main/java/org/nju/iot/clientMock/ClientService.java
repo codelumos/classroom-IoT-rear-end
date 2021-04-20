@@ -1,9 +1,9 @@
 package org.nju.iot.clientMock;
 
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.MqttCallback;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.springframework.stereotype.Service;
+//import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+//import org.eclipse.paho.client.mqttv3.MqttCallback;
+//import org.eclipse.paho.client.mqttv3.MqttMessage;
+//import org.springframework.stereotype.Service;
 
 //public class ClientService {
 //    private static DeviceManage deviceManage=new DeviceManage();
