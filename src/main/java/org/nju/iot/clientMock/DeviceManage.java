@@ -4,6 +4,7 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.nju.iot.config.MqttConfig;
+import org.nju.iot.constant.Lock;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +32,7 @@ public class DeviceManage {
         catch (Exception e){
             e.printStackTrace();
         }
+        Lock.setLock(false);
     }
     //添加设备
     public static void addDevice(long device_id,String credential,int type){

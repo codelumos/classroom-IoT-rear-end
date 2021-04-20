@@ -1,11 +1,14 @@
 package org.nju.iot.service;
 
-import com.sun.javaws.exceptions.ErrorCodeResponseException;
+
+import com.alibaba.fastjson.JSONObject;
 import org.nju.iot.VO.DeviceVO;
 import org.nju.iot.clientMock.DeviceManage;
 import org.nju.iot.clientMock.MqttService;
+import org.nju.iot.constant.Lock;
 import org.nju.iot.dao.DeviceDao;
 import org.nju.iot.dao.RequestLogDao;
+import org.nju.iot.form.DeviceTestForm;
 import org.nju.iot.model.DeviceEntity;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +50,9 @@ public class DeviceService {
 	public boolean deviceConnection(String credential) {
 		DeviceEntity deviceEntity= deviceDao.findByCredential(credential);
 		//验证并添加
+		Lock.setLock(true);
 		DeviceManage.Verify(deviceEntity.getId(),deviceEntity.getCredential(),deviceEntity.getDeviceType());
+		while (Lock.isLock()) {}
 		//查看是否成功添加设备
 		if(DeviceManage.hasDevice(deviceEntity.getId())){
 			System.out.println("设备添加成功");
@@ -60,8 +65,20 @@ public class DeviceService {
 	}
 
 	//设备调试
-	public void deviceTest(String status, long deviceId){
-		setStatus(status, QOS1, deviceId);
+	public void deviceTest(DeviceTestForm form){
+		JSONObject object = new JSONObject();
+		object.put("openState", form.getOpenState());
+		if (form.getDeviceType() == 0) {
+			object.put("brightness", form.getBrightness());
+			object.put("lampSense", form.getLampSense());
+		}
+		if (form.getDeviceType() == 1) {
+			object.put("pattern", form.getPattern());
+			object.put("gear", form.getGear());
+			object.put("temperature", form.getTemperature());
+		}
+		object.put("state",object.toJSONString());
+		MqttService.publish(String.valueOf(form.getId()),"/shadow/get/"+form.getId(),object.toJSONString(),QOS1);
 	}
 
 	//获取设备列表
@@ -82,6 +99,7 @@ public class DeviceService {
 		DeviceEntity deviceEntity = deviceDao.getOne(deviceId);
 		DeviceVO deviceVO = new DeviceVO();
 		BeanUtils.copyProperties(deviceEntity, deviceVO);
+		deviceVO.setOnlineState(MqttService.hasClient(String.valueOf(deviceEntity.getId())));
 		return deviceVO;
 	}
 
