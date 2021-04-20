@@ -5,16 +5,23 @@ import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.nju.iot.clientMock.DeviceManage;
 import org.nju.iot.clientMock.MqttService;
+import org.nju.iot.constant.QOS;
 import org.nju.iot.dao.DeviceDao;
+import org.nju.iot.model.DeviceEntity;
 import org.nju.iot.utils.SpringUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Date;
+import java.util.List;
 
 @Configuration
 public class MqttConfig {
+
+    @Autowired
+    private DeviceDao deviceDao;
     public static String client_id1="rear_end"+String.format("%ts", new Date());;
     public static String client_id2="device_end"+String.format("%ts", new Date());
     @Bean
@@ -40,13 +47,13 @@ public class MqttConfig {
                 if(dd.validateApprove(credential)==Long.parseLong(device_id)){//验证成功
                     System.out.println("验证成功");
                     //订阅对应设备update topic
-                    MqttService.subscribe(client_id1,"/shadow/update/"+device_id,1);
+                    MqttService.subscribe(client_id1,"/shadow/update/"+device_id, QOS.QOS1);
                     //发布验证结果
-                    MqttService.publish(client_id1,"/verify/get",verifyQuery,1);
+                    MqttService.publish(client_id1,"/verify/get",verifyQuery,QOS.QOS1);
                 }
                 else {//验证失败
                     System.out.println("验证失败");
-                    MqttService.publish(client_id1,"/verify/get","refuse",1);
+                    MqttService.publish(client_id1,"/verify/get","refuse",QOS.QOS1);
                 }
             }
             public void deliveryComplete(IMqttDeliveryToken token) {
@@ -54,7 +61,7 @@ public class MqttConfig {
             }
         });
         //订阅连接用topic
-        MqttService.subscribe(client_id1,"/verify/update",1);
+        MqttService.subscribe(client_id1,"/verify/update",QOS.QOS1);
 
         //设备管理端用client
         MqttService.addClient(client_id2);
@@ -81,6 +88,15 @@ public class MqttConfig {
                 System.out.println("DeviceManage deliveryComplete---------" + token.isComplete());
             }
         });
-        MqttService.subscribe(client_id2,"/verify/get",1);
+        MqttService.subscribe(client_id2,"/verify/get",QOS.QOS1);
+
+        //初始化Map
+        List<DeviceEntity> entities = deviceDao.findAll();
+        entities.forEach(e -> {
+            DeviceManage.addDevice(e.getId(), e.getCredential(), e.getDeviceType());
+            if (e.getStatus() != null) {
+                DeviceManage.setDeviceStatus(e.getId(), e.getStatus());
+            }
+        });
     }
 }

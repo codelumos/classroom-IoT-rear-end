@@ -2,6 +2,7 @@ package org.nju.iot.clientMock;
 
 import org.nju.iot.config.MqttConfig;
 import org.nju.iot.constant.Lock;
+import org.nju.iot.constant.QOS;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +18,7 @@ public class DeviceManage {
     public static void Verify(long device_id,String credential,int type){
         //发送消息，请求验证
         if(MqttService.hasClient(MqttConfig.client_id2))
-            MqttService.publish(MqttConfig.client_id2,"/verify/update",device_id+"@"+credential+"@"+type,1);
+            MqttService.publish(MqttConfig.client_id2,"/verify/update",device_id+"@"+credential+"@"+type, QOS.QOS1);
         else
             System.out.println("未添加设备管理用client");
         try {
@@ -52,8 +53,8 @@ public class DeviceManage {
         device.setStatus(status);
     }
     //获取设备状态
-    private static String getDeviceStatus(long device_id){
+    public static String getDeviceStatus(long device_id){
         Device device=deviceMap.get(device_id);
-        return device.getStatus();
+        return device != null ? device.getStatus() : null;
     }
 }

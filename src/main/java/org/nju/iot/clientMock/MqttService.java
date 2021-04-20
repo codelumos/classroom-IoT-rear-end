@@ -50,21 +50,7 @@ public class MqttService {
 	public static void subscribe(String client_id,String topic, int qos) {
 		MqttClient client=clientMap.get(client_id);
 		try {
-			// 设置默认回调函数
-//			client.setCallback(new MqttCallback() {
-//				public void connectionLost(Throwable cause) {
-//					System.out.println("mqtt connectionLost");
-//				}
-//				//收到消息后的处理
-//				public void messageArrived(String topic, MqttMessage message) throws Exception {
-//					System.out.println("topic:"+topic);
-//					System.out.println("Qos:"+message.getQos());
-//					System.out.println("message content:"+new String(message.getPayload()));
-//				}
-//				public void deliveryComplete(IMqttDeliveryToken token) {
-//					System.out.println("deliveryComplete---------" + token.isComplete());
-//				}
-//			});
+
 			client.subscribe(topic, qos);
 		} catch (Exception e) {
 			e.printStackTrace();

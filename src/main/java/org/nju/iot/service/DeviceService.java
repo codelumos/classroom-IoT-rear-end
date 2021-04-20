@@ -6,6 +6,7 @@ import org.nju.iot.VO.DeviceVO;
 import org.nju.iot.clientMock.DeviceManage;
 import org.nju.iot.clientMock.MqttService;
 import org.nju.iot.constant.Lock;
+import org.nju.iot.constant.QOS;
 import org.nju.iot.dao.DeviceDao;
 import org.nju.iot.dao.RequestLogDao;
 import org.nju.iot.form.DeviceTestForm;
@@ -25,11 +26,6 @@ public class DeviceService {
 	private DeviceDao deviceDao;
 	@Autowired
 	private RequestLogDao requestLogDao;
-
-	private static final int QOS1 = 1;
-	private static final int QOS2 = 2;
-	private static final int QOS3 = 3;
-
 
 	//添加设备
 	public long addDevice(String deviceName, int deviceType) throws Exception {
@@ -77,7 +73,7 @@ public class DeviceService {
 			object.put("temperature", form.getTemperature());
 		}
 		object.put("state",object.toJSONString());
-		MqttService.publish(String.valueOf(form.getId()),"/shadow/get/"+form.getId(),object.toJSONString(),QOS1);
+		MqttService.publish(String.valueOf(form.getId()),"/shadow/get/"+form.getId(),object.toJSONString(), QOS.QOS1);
 	}
 
 	//获取设备列表
@@ -88,7 +84,7 @@ public class DeviceService {
 			DeviceVO deviceVO = new DeviceVO();
 			BeanUtils.copyProperties(e, deviceVO);
 			deviceVO.setOnlineState(MqttService.hasClient(String.valueOf(e.getId())));
-			deviceVO.setStatus(null);
+			deviceVO.setStatus(DeviceManage.getDeviceStatus(e.getId()));
 			deviceVOS.add(deviceVO);
 		});
 		return deviceVOS;
@@ -100,13 +96,13 @@ public class DeviceService {
 		DeviceVO deviceVO = new DeviceVO();
 		BeanUtils.copyProperties(deviceEntity, deviceVO);
 		deviceVO.setOnlineState(MqttService.hasClient(String.valueOf(deviceEntity.getId())));
-		deviceVO.setStatus(null);
+		deviceVO.setStatus(DeviceManage.getDeviceStatus(deviceEntity.getId()));
 		return deviceVO;
 	}
 
 	//更新设备影子表，向该设备对应get topic发送消息，通知设备更新状态
 	public boolean updateShadow(long deviceId) {
-		deviceDao.updateStatusByDeviceId(null, deviceId);
+		deviceDao.updateStatusByDeviceId(DeviceManage.getDeviceStatus(deviceId), deviceId);
 		return true;
 	}
 

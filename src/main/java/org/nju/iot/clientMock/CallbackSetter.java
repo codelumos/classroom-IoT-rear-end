@@ -3,6 +3,7 @@ package org.nju.iot.clientMock;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.nju.iot.constant.QOS;
 
 public class CallbackSetter {
     public static void setDeviceCallback(String device_id){
@@ -25,6 +26,6 @@ public class CallbackSetter {
             }
         });
         //订阅自身的get topic
-        MqttService.subscribe(device_id,"/shadow/get/"+device_id,1);
+        MqttService.subscribe(device_id,"/shadow/get/"+device_id, QOS.QOS1);
     }
 }
