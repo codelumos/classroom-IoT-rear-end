@@ -29,4 +29,15 @@ public class AirCondition implements Device {
         pattern=json_state.getIntValue("pattern");
         System.out.println("device_id:"+device_id+" credential:"+credential+"  openState:"+open_state+" gear:"+gear+" temperature:"+temperature+" pattern"+pattern);
     }
+    public String getStatus(){
+        JSONObject state=new JSONObject();
+        state.put("openState",open_state);
+        state.put("gear",gear);
+        state.put("temperature",temperature);
+        state.put("pattern",pattern);
+        JSONObject status=new JSONObject();
+        status.put("state",state.toJSONString());
+
+        return status.toJSONString();
+    }
 }

@@ -1,8 +1,5 @@
 package org.nju.iot.clientMock;
 
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.MqttCallback;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.nju.iot.config.MqttConfig;
 import org.nju.iot.constant.Lock;
 
@@ -14,10 +11,7 @@ public class DeviceManage {
     public DeviceManage(){
     }
     public static boolean hasDevice(long device_id){
-        if(deviceMap.get(device_id)!=null)
-            return true;
-        else
-            return false;
+        return deviceMap.get(device_id) != null;
     }
     //验证
     public static void Verify(long device_id,String credential,int type){
@@ -39,21 +33,27 @@ public class DeviceManage {
         if(type==0){
             Lamp lamp=new Lamp(device_id,credential);
             deviceMap.put(device_id,lamp);
-            ClientService.setDeviceCallback(String.valueOf(device_id));
+            CallbackSetter.setDeviceCallback(String.valueOf(device_id));
         }
         if(type==1){
             AirCondition airCondition=new AirCondition(device_id,credential);
             deviceMap.put(device_id,airCondition);
-            ClientService.setDeviceCallback(String.valueOf(device_id));
+            CallbackSetter.setDeviceCallback(String.valueOf(device_id));
         }
         if(type==2){
             Projector projector=new Projector(device_id,credential);
             deviceMap.put(device_id,projector);
-            ClientService.setDeviceCallback(String.valueOf(device_id));
+            CallbackSetter.setDeviceCallback(String.valueOf(device_id));
         }
     }
+    //设置设备状态
     public static void setDeviceStatus(long device_id,String status){
         Device device=deviceMap.get(device_id);
         device.setStatus(status);
+    }
+    //获取设备状态
+    private static String getDeviceStatus(long device_id){
+        Device device=deviceMap.get(device_id);
+        return device.getStatus();
     }
 }

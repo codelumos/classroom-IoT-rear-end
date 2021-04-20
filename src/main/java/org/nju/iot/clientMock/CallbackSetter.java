@@ -4,7 +4,7 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-public class ClientService {
+public class CallbackSetter {
     public static void setDeviceCallback(String device_id){
         //添加设备用client
         MqttService.addClient(device_id);
