@@ -7,12 +7,12 @@ public class DeviceTestForm {
 	private long id;
 	private int deviceType;
 	//所有设备共享
-	public int openState;
+	public int openState = -1;
 	//灯->type=0
-	public int lampSense;
-	public int brightness;
+	public int lampSense = -1;
+	public int brightness = -1;
 	//空调->type=1
-	public int gear;
-	public int temperature;
-	public int pattern;
+	public int gear = -1;
+	public int temperature = -1;
+	public int pattern = -1;
 }

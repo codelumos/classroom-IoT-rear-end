@@ -25,7 +25,6 @@ public class DeviceService {
 	private DeviceDao deviceDao;
 	@Autowired
 	private RequestLogDao requestLogDao;
-	private MqttService mqttService;
 
 	private static final int QOS1 = 1;
 	private static final int QOS2 = 2;
@@ -89,6 +88,7 @@ public class DeviceService {
 			DeviceVO deviceVO = new DeviceVO();
 			BeanUtils.copyProperties(e, deviceVO);
 			deviceVO.setOnlineState(MqttService.hasClient(String.valueOf(e.getId())));
+			deviceVO.setStatus(null);
 			deviceVOS.add(deviceVO);
 		});
 		return deviceVOS;
@@ -100,11 +100,13 @@ public class DeviceService {
 		DeviceVO deviceVO = new DeviceVO();
 		BeanUtils.copyProperties(deviceEntity, deviceVO);
 		deviceVO.setOnlineState(MqttService.hasClient(String.valueOf(deviceEntity.getId())));
+		deviceVO.setStatus(null);
 		return deviceVO;
 	}
 
-	//设备影子
-	public boolean getShadow(long deviceId) {
+	//更新设备影子表，向该设备对应get topic发送消息，通知设备更新状态
+	public boolean updateShadow(long deviceId) {
+		deviceDao.updateStatusByDeviceId(null, deviceId);
 		return true;
 	}
 
@@ -113,17 +115,5 @@ public class DeviceService {
 		deviceIds.forEach(d ->deviceDao.deleteById(d));
 		return true;
 	}
-
-	//更新设备影子表，向该设备对应get topic发送消息，通知设备更新状态
-	private void setStatus(String status,int qos, long deviceId){
-		//更新设备影子表
-		DeviceEntity deviceEntity = deviceDao.getOne(deviceId);
-		deviceEntity.setStatus(status);
-		deviceDao.updateStatus(status,deviceId);
-
-		//向该设备对应get topic发送消息，通知设备更新状态
-		MqttService.publish(String.valueOf(deviceId),"/shadow/get/" + deviceId,status,qos);
-	}
-
 
 }
