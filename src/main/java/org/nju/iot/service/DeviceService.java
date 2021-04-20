@@ -1,5 +1,6 @@
 package org.nju.iot.service;
 
+import com.sun.javaws.exceptions.ErrorCodeResponseException;
 import org.nju.iot.VO.DeviceVO;
 import org.nju.iot.clientMock.DeviceManage;
 import org.nju.iot.clientMock.MqttService;
@@ -21,6 +22,7 @@ public class DeviceService {
 	private DeviceDao deviceDao;
 	@Autowired
 	private RequestLogDao requestLogDao;
+	private MqttService mqttService;
 
 	private static final int QOS1 = 1;
 	private static final int QOS2 = 2;
@@ -28,8 +30,11 @@ public class DeviceService {
 
 
 	//添加设备
-	public long addDevice(String deviceName, int deviceType) {
+	public long addDevice(String deviceName, int deviceType) throws Exception {
 		DeviceEntity device = new DeviceEntity();
+		if (deviceDao.findByName(deviceName) != null) {
+			return -1;
+		};
 		device.setDeviceName(deviceName);
 		device.setDeviceType(deviceType);
 		device.setCreateTime(new Timestamp(System.currentTimeMillis()));
@@ -65,10 +70,8 @@ public class DeviceService {
 		List<DeviceVO> deviceVOS = new ArrayList<>();
 		entities.forEach(e -> {
 			DeviceVO deviceVO = new DeviceVO();
-			deviceVO.setId(e.getId());
-			deviceVO.setDeviceName(e.getDeviceName());
-			deviceVO.setDeviceType(e.getDeviceType());
-			deviceVO.setCreateTime(e.getCreateTime());
+			BeanUtils.copyProperties(e, deviceVO);
+			deviceVO.setOnlineState(MqttService.hasClient(String.valueOf(e.getId())));
 			deviceVOS.add(deviceVO);
 		});
 		return deviceVOS;

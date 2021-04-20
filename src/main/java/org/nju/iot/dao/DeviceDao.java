@@ -28,4 +28,7 @@ public interface DeviceDao extends JpaRepository<DeviceEntity,Long> {
 
 	@Query(nativeQuery = true, value = "update device set groupId=:groupId where id=:deviceId")
 	void updateGroupIdById(@Param("groupId") long groupId, @Param("deviceId") long deviceId);
+
+	@Query(nativeQuery = true, value = "select * from device where device_name=:deviceName")
+	DeviceEntity findByName(@Param("deviceName") String deviceName);
 }

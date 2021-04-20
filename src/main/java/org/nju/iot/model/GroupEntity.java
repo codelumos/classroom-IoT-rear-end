@@ -15,9 +15,9 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Table(name = GroupEntity.TABLE)
 public class GroupEntity {
-	public static final String TABLE = "group";
+	public static final String TABLE = "team";
 	@Id
 	private long id;
-	private String groupName;
+	private String teamName;
 	private Timestamp createTime;
 }

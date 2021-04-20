@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 public class GroupVO {
 	private long id;
-	private String groupName;
+	private String teamName;
 	private Timestamp createTime;
 	List<DeviceVO> deviceVOS;
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class DeviceManageController {
 	//创建设备
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public long addDevice(@RequestParam String deviceName,
-												@RequestParam int deviceType) {
+												@RequestParam int deviceType) throws Exception {
 		return deviceService.addDevice(deviceName, deviceType);
 	}
 
