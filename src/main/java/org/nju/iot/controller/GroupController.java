@@ -48,9 +48,9 @@ public class GroupController {
 
 	//为设备添加分组
 	@RequestMapping(value = "/add/to", method = RequestMethod.POST)
-	public boolean addDeviceToGroup(@RequestParam long deviceId,
+	public boolean addDeviceToGroup(@RequestParam List<Long> deviceIds,
 																	@RequestParam long groupId) {
-		return groupService.addDeviceToGroup(deviceId, groupId);
+		return groupService.addDeviceToGroup(deviceIds, groupId);
 	}
 
 	//从分组删除设备

@@ -14,4 +14,5 @@ public class DeviceVO {
 	private Timestamp onlineTime;
 	private long groupId;
 	private String credential;
+	private boolean onlineState;
 }

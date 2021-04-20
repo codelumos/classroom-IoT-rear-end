@@ -53,9 +53,9 @@ public class GroupService {
 	}
 
 	//添加分组
-	public boolean addGroup(String groupName) {
+	public boolean addGroup(String teamName) {
 		GroupEntity groupEntity = new GroupEntity();
-		groupEntity.setGroupName(groupName);
+		groupEntity.setTeamName(teamName);
 		groupEntity.setCreateTime(new Timestamp(System.currentTimeMillis()));
 		groupDao.save(groupEntity);
 		return true;
@@ -80,8 +80,9 @@ public class GroupService {
 	}
 
 	//为设备添加分组
-	public boolean addDeviceToGroup(long deviceId, long groupId) {
-		deviceDao.updateGroupIdById(deviceId, groupId);
+	public boolean addDeviceToGroup(List<Long> deviceIds, long groupId) {
+		deviceIds.forEach(d -> deviceDao.updateGroupIdById(d, groupId)
+		);
 		return true;
 	}
 
