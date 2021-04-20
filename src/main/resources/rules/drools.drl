@@ -1,0 +1,30 @@
+import org.nju.iot.model.drools.QueryParam
+import org.nju.iot.model.drools.RuleResult
+import org.nju.iot.service.RuleService
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.nju.iot.service.RuleService
+
+rule "paramcheck1"
+    salience 99
+    when queryParam : QueryParam (paramId != null && paramSign.equals("+"))
+        resultParam : RuleResult()
+    then
+        final Logger LOGGER = LoggerFactory.getLogger("param-check-one 规则引擎") ;
+        LOGGER.info("参数:getParamId="+queryParam.getParamId()+";getParamSign="+queryParam.getParamSign());
+        RuleService ruleService = new RuleService() ;
+        ruleService.executeAddRule(queryParam);
+        resultParam.setPostCodeResult(true);
+end
+
+rule "paramcheck2"
+    salience 88
+    when queryParam : QueryParam(paramId != null && paramSign.equals("-"))
+        resultParam : RuleResult()
+    then
+        final Logger LOGGER = LoggerFactory.getLogger("param-check-two 规则引擎") ;
+        LOGGER.info("参数:getParamId="+queryParam.getParamId()+";getParamSign="+queryParam.getParamSign());
+        RuleService ruleService = new RuleService() ;
+        ruleService.executeRemoveRule(queryParam);
+        resultParam.setPostCodeResult(true);
+end

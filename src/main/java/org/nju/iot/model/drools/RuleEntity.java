@@ -1,4 +1,4 @@
-package org.nju.iot.model;
+package org.nju.iot.model.drools;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.sql.Timestamp;
 
 @Entity
 @Data
@@ -16,5 +17,8 @@ import javax.persistence.Table;
 public class RuleEntity {
 	public static final String TABLE = "rule";
 	@Id
-	private long id;
+	private String id ;
+	private String paramSign ;
+	private Timestamp createTime ;
+	private Timestamp updateTime ;
 }
