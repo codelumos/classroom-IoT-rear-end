@@ -1,107 +1,107 @@
-import org.nju.iot.model.drools.QueryParam
-import org.nju.iot.model.drools.RuleResult
-import org.nju.iot.service.RuleService
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-import org.nju.iot.service.DeviceService
-import org.nju.iot.form.DeviceTestForm
-
-rule "开灯"
-    salience 99
-    when queryParam : QueryParam (paramSign.equals("开灯"))
-        resultParam : RuleResult()
-    then
-        final Logger LOGGER = LoggerFactory.getLogger("开灯规则") ;
-        LOGGER.info("getParamSign="+queryParam.getParamSign());
-        DeviceService deviceService = new DeviceService() ;
-        DeviceTestForm form = new DeviceTestForm();
-        form.setDeviceType(0);
-        form.setOpenState(1);
-        form.setLampSense(5);
-        form.setBrightness(3);
-        deviceService.updateStatusByRule(form);
-        resultParam.setPostCodeResult(true);
-end
-
-rule "关灯"
-    salience 99
-    when queryParam : QueryParam(paramSign.equals("关灯"))
-        resultParam : RuleResult()
-    then
-        final Logger LOGGER = LoggerFactory.getLogger("关灯规则") ;
-        LOGGER.info("getParamSign="+queryParam.getParamSign());
-        DeviceService deviceService = new DeviceService() ;
-        DeviceTestForm form = new DeviceTestForm();
-        form.setDeviceType(0);
-        form.setOpenState(0);
-        form.setLampSense(0);
-        form.setBrightness(0);
-        deviceService.updateStatusByRule(form);
-        resultParam.setPostCodeResult(true);
-end
-
-rule "开空调"
-    salience 99
-    when queryParam : QueryParam(paramSign.equals("开空调"))
-        resultParam : RuleResult()
-    then
-        final Logger LOGGER = LoggerFactory.getLogger("开空调规则") ;
-        LOGGER.info("getParamSign="+queryParam.getParamSign());
-        DeviceService deviceService = new DeviceService() ;
-        DeviceTestForm form = new DeviceTestForm();
-        form.setDeviceType(1);
-        form.setOpenState(1);
-        form.setGear(3);
-        form.setTemperature(3);
-        form.setPattern(1);
-        deviceService.updateStatusByRule(form);
-        resultParam.setPostCodeResult(true);
-end
-
-rule "关空调"
-    salience 99
-    when queryParam : QueryParam(paramSign.equals("关空调"))
-        resultParam : RuleResult()
-    then
-        final Logger LOGGER = LoggerFactory.getLogger("关空调规则") ;
-        LOGGER.info("getParamSign="+queryParam.getParamSign());
-        DeviceService deviceService = new DeviceService() ;
-        DeviceTestForm form = new DeviceTestForm();
-        form.setDeviceType(1);
-        form.setOpenState(0);
-        form.setGear(0);
-        form.setTemperature(0);
-        form.setPattern(0);
-        deviceService.updateStatusByRule(form);
-        resultParam.setPostCodeResult(true);
-end
-
-rule "开投影仪"
-    salience 99
-    when queryParam : QueryParam(paramSign.equals("开投影仪"))
-        resultParam : RuleResult()
-    then
-        final Logger LOGGER = LoggerFactory.getLogger("开投影仪") ;
-        LOGGER.info("getParamSign="+queryParam.getParamSign());
-        DeviceService deviceService = new DeviceService() ;
-        DeviceTestForm form = new DeviceTestForm();
-        form.setDeviceType(2);
-        form.setOpenState(1);
-        deviceService.updateStatusByRule(form);
-        resultParam.setPostCodeResult(true);
-end
-
-rule "关投影仪"
-    salience 99
-    when queryParam : QueryParam(paramSign.equals("关投影仪"))
-        resultParam : RuleResult()
-    then
-        final Logger LOGGER = LoggerFactory.getLogger("关投影仪") ;
-        LOGGER.info("getParamSign="+queryParam.getParamSign());
-        DeviceService deviceService = new DeviceService() ;
-        DeviceTestForm form = new DeviceTestForm();
-        form.setDeviceType(2);
-        form.setOpenState(0);
-        deviceService.updateStatusByRule(form);
-        resultParam.setPostCodeResult(true);
-end
+//import org.nju.iot.model.drools.QueryParam
+//import org.nju.iot.model.drools.RuleResult
+//import org.nju.iot.service.RuleService
+//import org.slf4j.Logger
+//import org.slf4j.LoggerFactory
+//import org.nju.iot.service.DeviceService
+//import org.nju.iot.form.DeviceTestForm
+//
+//rule "开灯"
+//    salience 99
+//    when queryParam : QueryParam (paramSign.equals("开灯"))
+//        resultParam : RuleResult()
+//    then
+//        final Logger LOGGER = LoggerFactory.getLogger("开灯规则") ;
+//        LOGGER.info("getParamSign="+queryParam.getParamSign());
+//        DeviceService deviceService = new DeviceService() ;
+//        DeviceTestForm form = new DeviceTestForm();
+//        form.setDeviceType(0);
+//        form.setOpenState(1);
+//        form.setLampSense(5);
+//        form.setBrightness(3);
+//        deviceService.updateStatusByRule(form);
+//        resultParam.setPostCodeResult(true);
+//end
+//
+//rule "关灯"
+//    salience 99
+//    when queryParam : QueryParam(paramSign.equals("关灯"))
+//        resultParam : RuleResult()
+//    then
+//        final Logger LOGGER = LoggerFactory.getLogger("关灯规则") ;
+//        LOGGER.info("getParamSign="+queryParam.getParamSign());
+//        DeviceService deviceService = new DeviceService() ;
+//        DeviceTestForm form = new DeviceTestForm();
+//        form.setDeviceType(0);
+//        form.setOpenState(0);
+//        form.setLampSense(0);
+//        form.setBrightness(0);
+//        deviceService.updateStatusByRule(form);
+//        resultParam.setPostCodeResult(true);
+//end
+//
+//rule "开空调"
+//    salience 99
+//    when queryParam : QueryParam(paramSign.equals("开空调"))
+//        resultParam : RuleResult()
+//    then
+//        final Logger LOGGER = LoggerFactory.getLogger("开空调规则") ;
+//        LOGGER.info("getParamSign="+queryParam.getParamSign());
+//        DeviceService deviceService = new DeviceService() ;
+//        DeviceTestForm form = new DeviceTestForm();
+//        form.setDeviceType(1);
+//        form.setOpenState(1);
+//        form.setGear(3);
+//        form.setTemperature(3);
+//        form.setPattern(1);
+//        deviceService.updateStatusByRule(form);
+//        resultParam.setPostCodeResult(true);
+//end
+//
+//rule "关空调"
+//    salience 99
+//    when queryParam : QueryParam(paramSign.equals("关空调"))
+//        resultParam : RuleResult()
+//    then
+//        final Logger LOGGER = LoggerFactory.getLogger("关空调规则") ;
+//        LOGGER.info("getParamSign="+queryParam.getParamSign());
+//        DeviceService deviceService = new DeviceService() ;
+//        DeviceTestForm form = new DeviceTestForm();
+//        form.setDeviceType(1);
+//        form.setOpenState(0);
+//        form.setGear(0);
+//        form.setTemperature(0);
+//        form.setPattern(0);
+//        deviceService.updateStatusByRule(form);
+//        resultParam.setPostCodeResult(true);
+//end
+//
+//rule "开投影仪"
+//    salience 99
+//    when queryParam : QueryParam(paramSign.equals("开投影仪"))
+//        resultParam : RuleResult()
+//    then
+//        final Logger LOGGER = LoggerFactory.getLogger("开投影仪") ;
+//        LOGGER.info("getParamSign="+queryParam.getParamSign());
+//        DeviceService deviceService = new DeviceService() ;
+//        DeviceTestForm form = new DeviceTestForm();
+//        form.setDeviceType(2);
+//        form.setOpenState(1);
+//        deviceService.updateStatusByRule(form);
+//        resultParam.setPostCodeResult(true);
+//end
+//
+//rule "关投影仪"
+//    salience 99
+//    when queryParam : QueryParam(paramSign.equals("关投影仪"))
+//        resultParam : RuleResult()
+//    then
+//        final Logger LOGGER = LoggerFactory.getLogger("关投影仪") ;
+//        LOGGER.info("getParamSign="+queryParam.getParamSign());
+//        DeviceService deviceService = new DeviceService() ;
+//        DeviceTestForm form = new DeviceTestForm();
+//        form.setDeviceType(2);
+//        form.setOpenState(0);
+//        deviceService.updateStatusByRule(form);
+//        resultParam.setPostCodeResult(true);
+//end
