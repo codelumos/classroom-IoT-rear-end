@@ -2,6 +2,7 @@ package org.nju.iot.service;
 
 import org.nju.iot.VO.DeviceVO;
 import org.nju.iot.VO.GroupVO;
+import org.nju.iot.clientMock.MqttService;
 import org.nju.iot.dao.DeviceDao;
 import org.nju.iot.dao.GroupDao;
 import org.nju.iot.model.DeviceEntity;
@@ -36,8 +37,24 @@ public class GroupService {
 				return deviceVO;
 			}).collect(Collectors.toList());
 			groupVO.setDeviceVOS(devices);
+			groupVOS.add(groupVO);
 		});
 		return groupVOS;
+	}
+
+	//获取单个设备详情
+	public GroupVO getDetail(long groupId) {
+		GroupEntity group = groupDao.getOne(groupId);
+		GroupVO groupVO = new GroupVO();
+		BeanUtils.copyProperties(group, groupVO);
+		List<DeviceVO> devices = deviceDao.findByGroupId(group.getId()).stream().map(d -> {
+			DeviceVO deviceVO = new DeviceVO();
+			BeanUtils.copyProperties(d,deviceVO);
+			deviceVO.setOnlineState(MqttService.hasClient(String.valueOf(d.getId())));
+			return deviceVO;
+		}).collect(Collectors.toList());
+		groupVO.setDeviceVOS(devices);
+		return groupVO;
 	}
 
 	//根据分组获取设备
@@ -62,8 +79,8 @@ public class GroupService {
 	}
 
 	//删除分组
-	public boolean deleteGroup(long groupId) {
-		groupDao.deleteById(groupId);
+	public boolean deleteGroup(List<Long> groupIds) {
+		groupIds.forEach(g -> groupDao.deleteById(g));
 		return true;
 	}
 
@@ -81,14 +98,21 @@ public class GroupService {
 
 	//为设备添加分组
 	public boolean addDeviceToGroup(List<Long> deviceIds, long groupId) {
-		deviceIds.forEach(d -> deviceDao.updateGroupIdById(d, groupId)
-		);
+		deviceIds.forEach(d -> {
+			DeviceEntity deviceEntity = deviceDao.getOne(d);
+			deviceEntity.setGroupId(groupId);
+			deviceDao.save(deviceEntity);
+		});
 		return true;
 	}
 
 	//从分组删除设备
-	public boolean deleteFromGroup(long deviceId) {
-		deviceDao.updateGroupIdById(deviceId, 0);
+	public boolean deleteFromGroup(List<Long> deviceIds) {
+		deviceIds.forEach(d -> {
+			DeviceEntity deviceEntity = deviceDao.getOne(d);
+			deviceEntity.setGroupId(0);
+			deviceDao.save(deviceEntity);
+		});
 		return true;
 	}
 }

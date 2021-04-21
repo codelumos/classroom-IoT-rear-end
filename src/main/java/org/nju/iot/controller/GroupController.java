@@ -22,6 +22,12 @@ public class GroupController {
 	@RequestMapping(value = "/overview", method = RequestMethod.GET)
 	public List<GroupVO> getAllGroups() {return groupService.getAllGroups();}
 
+	//获取单个分组
+	@RequestMapping(value = "/detail", method = RequestMethod.GET)
+	public GroupVO getDetail(@RequestParam long groupId) {
+		return groupService.getDetail(groupId);
+	}
+
 	//根据分组获得设备
 	@RequestMapping(value = "/detail/group_id", method = RequestMethod.GET)
 	public List<DeviceVO> getDeviceByGroup(@RequestParam long groupId) {
@@ -36,8 +42,8 @@ public class GroupController {
 
 	//删除分组
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public boolean deleteGroup(@RequestParam long groupId) {
-		return groupService.deleteGroup(groupId);
+	public boolean deleteGroup(@RequestParam List<Long> groupIds) {
+		return groupService.deleteGroup(groupIds);
 	}
 
 	//获取没有分组的设备
@@ -55,8 +61,8 @@ public class GroupController {
 
 	//从分组删除设备
 	@RequestMapping(value = "/delete/from", method = RequestMethod.POST)
-	public boolean deleteFromGroup(@RequestParam long deviceId) {
-		return groupService.deleteFromGroup(deviceId);
+	public boolean deleteFromGroup(@RequestParam List<Long> deviceIds) {
+		return groupService.deleteFromGroup(deviceIds);
 	}
 
 

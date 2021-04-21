@@ -6,6 +6,7 @@ import org.nju.iot.constant.QOS;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class DeviceManage {
     private static Map<Long, Device> deviceMap=new HashMap<>();//设备集合

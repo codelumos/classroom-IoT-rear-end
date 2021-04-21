@@ -117,8 +117,8 @@ public class MqttConfig {
         //初始化Map
         List<DeviceEntity> entities = deviceDao.findAll().stream().filter(e -> e.getStatus() != null).collect(Collectors.toList());
         entities.forEach(e -> {
-            DeviceManage.addDevice(e.getId(), e.getCredential(), e.getDeviceType());
             MqttService.addClient(String.valueOf(e.getId()));
+            DeviceManage.addDevice(e.getId(), e.getCredential(), e.getDeviceType());
             if (e.getStatus() != null) {
                 DeviceManage.setDeviceStatus(e.getId(), e.getStatus());
             }

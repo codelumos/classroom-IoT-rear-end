@@ -45,12 +45,6 @@ public class DeviceManageController {
 		return deviceService.getDetail(deviceId);
 	}
 
-	//设备影子
-	@RequestMapping(value = "/edit/shadow", method = RequestMethod.POST)
-	public boolean updateShadow(@RequestParam long deviceId) {
-		return deviceService.updateShadow(deviceId);
-	}
-
 	//删除设备
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public boolean deleteDevices(@RequestParam List<Long> deviceIds) {

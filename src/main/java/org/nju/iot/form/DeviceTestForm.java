@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class DeviceTestForm {
 	private long id;
-	private int deviceType;
+	private int deviceType = -1;
 	//所有设备共享
 	public int openState = -1;
 	//灯->type=0
