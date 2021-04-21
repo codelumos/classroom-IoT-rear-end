@@ -21,4 +21,5 @@ public class RequestLogEntity {
 	private long id;
 	private long deviceId;
 	private Timestamp requestTime;
+	private String status;
 }

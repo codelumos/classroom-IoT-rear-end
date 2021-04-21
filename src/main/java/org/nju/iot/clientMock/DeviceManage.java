@@ -46,11 +46,15 @@ public class DeviceManage {
             deviceMap.put(device_id,projector);
             CallbackSetter.setDeviceCallback(String.valueOf(device_id));
         }
+        //通知更新日志表
+        MqttService.publish(String.valueOf(device_id),"/shadow/update/"+device_id,getDeviceStatus(device_id),QOS.QOS1);
     }
     //设置设备状态
     public static void setDeviceStatus(long device_id,String status){
         Device device=deviceMap.get(device_id);
         device.setStatus(status);
+        //通知更新日志表
+        MqttService.publish(String.valueOf(device_id),"/shadow/update"+device_id,status,QOS.QOS1);
     }
     //获取设备状态
     public static String getDeviceStatus(long device_id){
