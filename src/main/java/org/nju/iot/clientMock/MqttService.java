@@ -34,6 +34,10 @@ public class MqttService {
 			e.printStackTrace();
 		}
 	}
+	public static void deleteClient(String client_id){
+		close(client_id);
+		clientMap.remove(client_id);
+	}
 
 	public static boolean hasClient(String client_id){
 		if(clientMap.get(client_id)!=null)

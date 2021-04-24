@@ -6,7 +6,6 @@ import org.nju.iot.constant.QOS;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class DeviceManage {
     private static Map<Long, Device> deviceMap=new HashMap<>();//设备集合
@@ -18,8 +17,8 @@ public class DeviceManage {
     //验证
     public static void Verify(long device_id,String credential,int type){
         //发送消息，请求验证
-        if(MqttService.hasClient(MqttConfig.client_id2))
-            MqttService.publish(MqttConfig.client_id2,"/verify/update",device_id+"@"+credential+"@"+type, QOS.QOS1);
+        if(MqttService.hasClient(MqttConfig.device_end_id))
+            MqttService.publish(MqttConfig.device_end_id,"/verify/update",device_id+"@"+credential+"@"+type, QOS.QOS1);
         else
             System.out.println("未添加设备管理用client");
         try {
@@ -49,6 +48,11 @@ public class DeviceManage {
         }
         //通知更新日志表
         MqttService.publish(String.valueOf(device_id),"/shadow/update/"+device_id,getDeviceStatus(device_id),QOS.QOS1);
+    }
+    //删除设备
+    public static void deleteDevice(long device_id){
+        if(hasDevice(device_id))
+            deviceMap.remove(device_id);
     }
     //设置设备状态
     public static void setDeviceStatus(long device_id,String status){

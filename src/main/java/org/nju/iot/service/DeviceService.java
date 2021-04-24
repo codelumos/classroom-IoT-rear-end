@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.nju.iot.VO.DeviceVO;
 import org.nju.iot.clientMock.DeviceManage;
 import org.nju.iot.clientMock.MqttService;
+import org.nju.iot.config.MqttConfig;
 import org.nju.iot.constant.Lock;
 import org.nju.iot.constant.QOS;
 import org.nju.iot.dao.DeviceDao;
@@ -130,6 +131,8 @@ public class DeviceService {
 	//删除设备
 	public boolean deleteDevices(List<Long> deviceIds) {
 		deviceIds.forEach(d -> deviceDao.deleteById(d));
+		//通知设备端删除设备
+		deviceIds.forEach(d -> MqttService.publish(MqttConfig.device_end_id,"/verify/get","delete@"+d,QOS.QOS1));
 		return true;
 	}
 

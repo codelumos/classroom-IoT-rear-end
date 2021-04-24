@@ -26,15 +26,15 @@ public class MqttConfig {
 
     @Autowired
     private DeviceDao deviceDao;
-    public static String client_id1="rear_end"+String.format("%ts", new Date());;
-    public static String client_id2="device_end"+String.format("%ts", new Date());
+    public static String rear_end_id ="rear_end"+String.format("%ts", new Date());;
+    public static String device_end_id ="device_end"+String.format("%ts", new Date());
     @Bean
     public void init(){
         //新建后端用client
-        MqttService.addClient(client_id1);
-        MqttService.setCallback(client_id1,new MqttCallback() {
+        MqttService.addClient(rear_end_id);
+        MqttService.setCallback(rear_end_id,new MqttCallback() {
             public void connectionLost(Throwable cause) {
-                MqttService.connect(client_id1);
+                MqttService.connect(rear_end_id);
                 System.out.println("rear_end connectionLost");
             }
             public void messageArrived(String topic, MqttMessage message) throws Exception {
@@ -70,13 +70,13 @@ public class MqttConfig {
                     if(dd.validateApprove(credential)==Long.parseLong(device_id)){//验证成功
                         System.out.println("验证成功");
                         //订阅对应设备update topic
-                        MqttService.subscribe(client_id1,"/shadow/update/"+device_id, QOS.QOS1);
+                        MqttService.subscribe(rear_end_id,"/shadow/update/"+device_id, QOS.QOS1);
                         //发布验证结果
-                        MqttService.publish(client_id1,"/verify/get",verifyQuery,QOS.QOS1);
+                        MqttService.publish(rear_end_id,"/verify/get",verifyQuery,QOS.QOS1);
                     }
                     else {//验证失败
                         System.out.println("验证失败");
-                        MqttService.publish(client_id1,"/verify/get","refuse",QOS.QOS1);
+                        MqttService.publish(rear_end_id,"/verify/get","refuse",QOS.QOS1);
                     }
                 }
             }
@@ -85,11 +85,11 @@ public class MqttConfig {
             }
         });
         //订阅连接用topic
-        MqttService.subscribe(client_id1,"/verify/update",QOS.QOS1);
+        MqttService.subscribe(rear_end_id,"/verify/update",QOS.QOS1);
 
         //设备管理端用client
-        MqttService.addClient(client_id2);
-        MqttService.setCallback(client_id2,new MqttCallback() {
+        MqttService.addClient(device_end_id);
+        MqttService.setCallback(device_end_id,new MqttCallback() {
             public void connectionLost(Throwable cause) {
                 System.out.println("DeviceManage connectionLost");
             }
@@ -99,20 +99,28 @@ public class MqttConfig {
                 String verifyResult=new String(message.getPayload());
                 String[] result=verifyResult.split("@");
                 if(!verifyResult.equals("refuse")){
+                    System.out.println("添加设备被拒绝");
+                }
+                else if(result[0].equals("delete")){//删除设备
+                    //删除设备用client
+                    MqttService.deleteClient(result[1]);
+                    //删除设备
+                    DeviceManage.deleteDevice(Long.parseLong(result[1]));
+                    System.out.println("删除完毕");
+                }
+                else{//添加设备
                     //添加设备用client
                     MqttService.addClient(result[0]);
                     //添加设备
                     DeviceManage.addDevice(Long.parseLong(result[0]),result[1],Integer.parseInt(result[2]));
                     System.out.println("添加完毕");
                 }
-                else
-                    System.out.println("添加设备被拒绝");
             }
             public void deliveryComplete(IMqttDeliveryToken token) {
                 System.out.println("DeviceManage deliveryComplete---------" + token.isComplete());
             }
         });
-        MqttService.subscribe(client_id2,"/verify/get",QOS.QOS1);
+        MqttService.subscribe(device_end_id,"/verify/get",QOS.QOS1);
 
         //初始化Map
         List<DeviceEntity> entities = deviceDao.findAll().stream().filter(e -> e.getStatus() != null).collect(Collectors.toList());
