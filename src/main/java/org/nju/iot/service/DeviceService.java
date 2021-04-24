@@ -78,25 +78,25 @@ public class DeviceService {
 		MqttService.publish(String.valueOf(form.getId()),"/shadow/get/"+form.getId(),object.toJSONString(), QOS.QOS1);
 	}
 
-//	//根据规则批量修改
-//	public void updateStatusByRule(DeviceTestForm form) {
-//		JSONObject object = new JSONObject();
-//		object.put("openState", form.getOpenState());
-//		if (form.getDeviceType() == 0) {
-//			object.put("brightness", form.getBrightness());
-//			object.put("lampSense", form.getLampSense());
-//		}
-//		if (form.getDeviceType() == 1) {
-//			object.put("pattern", form.getPattern());
-//			object.put("gear", form.getGear());
-//			object.put("temperature", form.getTemperature());
-//		}
-//		object.put("state",object.toJSONString());
-//		if (form.getDeviceType() != -1 ) {
-//			List<DeviceEntity> entities = deviceDao.findByType(form.getDeviceType());
-//			entities.forEach(e -> MqttService.publish(String.valueOf(e.getId()),"/shadow/get/"+e.getId(),object.toJSONString(), QOS.QOS1));
-//		}
-//	}
+	//根据规则批量修改
+	public void updateStatusByRule(DeviceTestForm form) {
+		JSONObject object = new JSONObject();
+		object.put("openState", form.getOpenState());
+		if (form.getDeviceType() == 0) {
+			object.put("brightness", form.getBrightness());
+			object.put("lampSense", form.getLampSense());
+		}
+		if (form.getDeviceType() == 1) {
+			object.put("pattern", form.getPattern());
+			object.put("gear", form.getGear());
+			object.put("temperature", form.getTemperature());
+		}
+		object.put("state",object.toJSONString());
+		if (form.getDeviceType() != -1 ) {
+			List<DeviceEntity> entities = deviceDao.findByType(form.getDeviceType());
+			entities.forEach(e -> MqttService.publish(String.valueOf(e.getId()),"/shadow/get/"+e.getId(),object.toJSONString(), QOS.QOS1));
+		}
+	}
 
 	//获取设备列表
 	// TODO: 2021/4/21 根据设备status分组展示
