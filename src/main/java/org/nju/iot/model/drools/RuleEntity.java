@@ -18,7 +18,8 @@ public class RuleEntity {
     public static final String TABLE = "rule";
     @Id
     private String id;
-    private String paramSign;
+    private String name;
+    private String description;
     private Timestamp createTime;
     private Timestamp updateTime;
 }
