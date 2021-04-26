@@ -9,10 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Timestamp;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(name = RuleEntity.TABLE)
 public class RuleEntity {
     public static final String TABLE = "rule";

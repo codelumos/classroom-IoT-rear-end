@@ -9,10 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Timestamp;
 
-@Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Entity
 @Table(name = GroupEntity.TABLE)
 public class GroupEntity {
     public static final String TABLE = "team";

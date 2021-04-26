@@ -10,9 +10,9 @@ import javax.persistence.Table;
 import java.sql.Timestamp;
 
 @Data
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(name = DeviceEntity.TABLE)
 public class DeviceEntity {
     public static final String TABLE = "device";

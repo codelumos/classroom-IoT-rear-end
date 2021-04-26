@@ -9,10 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Timestamp;
 
-@Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Entity
 @Table(name = RequestLogEntity.TABLE)
 public class RequestLogEntity {
     public static final String TABLE = "request_log";
