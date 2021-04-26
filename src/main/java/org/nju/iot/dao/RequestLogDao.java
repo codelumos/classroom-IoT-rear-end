@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RequestLogDao extends JpaRepository<RequestLogEntity, Long> {
 
-	@Query(nativeQuery = true, value = "select * from request_log where device_id=:deviceId order by request_time desc limit 1")
-	RequestLogEntity findByDeviceId(@Param("deviceId") long deviceId);
+    @Query(nativeQuery = true, value = "select * from request_log where device_id=:deviceId order by request_time desc limit 1")
+    RequestLogEntity findByDeviceId(@Param("deviceId") long deviceId);
 }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/data")
 public class DataAnalysisController {
-	@Autowired
-	private DataAnalysisService analysisService;
+    @Autowired
+    private DataAnalysisService analysisService;
 
 }

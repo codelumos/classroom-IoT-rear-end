@@ -14,8 +14,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 public class IotApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(IotApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(IotApplication.class, args);
+    }
 
 }

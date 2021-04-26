@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class QueryParam {
-	private String paramId;
-	private String paramSign;
+    private String paramId;
+    private String paramSign;
 }

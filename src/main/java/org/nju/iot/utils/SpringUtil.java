@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class SpringUtil extends ApplicationObjectSupport {
     public static ApplicationContext context;
 
-    public static Object getBean(String serviceName){
+    public static Object getBean(String serviceName) {
         return context.getBean(serviceName);
     }
 

@@ -19,12 +19,12 @@ public class DroolsUtil {
     public DroolsUtil() {
     }
 
-    public KieHelper getKieHelper() {
-        return kieHelper;
-    }
-
     public static DroolsUtil getInstance() {
         return new DroolsUtil();
+    }
+
+    public KieHelper getKieHelper() {
+        return kieHelper;
     }
 
     /**

@@ -15,15 +15,15 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Table(name = DeviceEntity.TABLE)
 public class DeviceEntity {
-	public static final String TABLE = "device";
-	@Id
-	private long id;
-	private String deviceName;
-	private int deviceType;
-	private Timestamp createTime;
-	private String status;
-	private Timestamp onlineTime;
-	private long groupId = 0;
-	private String credential;
+    public static final String TABLE = "device";
+    @Id
+    private long id;
+    private String deviceName;
+    private int deviceType;
+    private Timestamp createTime;
+    private String status;
+    private Timestamp onlineTime;
+    private long groupId = 0;
+    private String credential;
 
 }

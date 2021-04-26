@@ -15,10 +15,10 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Table(name = RuleEntity.TABLE)
 public class RuleEntity {
-	public static final String TABLE = "rule";
-	@Id
-	private String id ;
-	private String paramSign ;
-	private Timestamp createTime ;
-	private Timestamp updateTime ;
+    public static final String TABLE = "rule";
+    @Id
+    private String id;
+    private String paramSign;
+    private Timestamp createTime;
+    private Timestamp updateTime;
 }
