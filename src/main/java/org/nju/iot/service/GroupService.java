@@ -34,6 +34,7 @@ public class GroupService {
             List<DeviceVO> devices = deviceDao.findByGroupId(g.getId()).stream().map(d -> {
                 DeviceVO deviceVO = new DeviceVO();
                 BeanUtils.copyProperties(d, deviceVO);
+                deviceVO.setOnlineState(MqttService.hasClient(String.valueOf(d.getId())));
                 return deviceVO;
             }).collect(Collectors.toList());
             groupVO.setDeviceVOS(devices);
@@ -91,6 +92,7 @@ public class GroupService {
         deviceEntities.forEach(d -> {
             DeviceVO deviceVO = new DeviceVO();
             BeanUtils.copyProperties(d, deviceVO);
+            deviceVO.setOnlineState(MqttService.hasClient(String.valueOf(d.getId())));
             deviceVOS.add(deviceVO);
         });
         return deviceVOS;
