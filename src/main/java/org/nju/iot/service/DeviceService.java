@@ -35,7 +35,7 @@ public class DeviceService {
         if (deviceDao.findByName(deviceName) != null) {
             return -1;
         }
-		device.setDeviceName(deviceName);
+        device.setDeviceName(deviceName);
         device.setDeviceType(deviceType);
         device.setCreateTime(new Timestamp(System.currentTimeMillis()));
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");

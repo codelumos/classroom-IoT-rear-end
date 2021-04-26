@@ -21,7 +21,7 @@ public class RequestLogService {
     @Autowired
     private DeviceDao deviceDao;
 
-    public Map<String, List<RequestLogVO>> getOverview(){
+    public Map<String, List<RequestLogVO>> getOverview() {
         Map<String, List<RequestLogVO>> map = new HashMap<>();
         List<RequestLogEntity> logs = requestLogDao.findAll();
         for (RequestLogEntity requestLogEntity : logs) {
@@ -31,7 +31,7 @@ public class RequestLogService {
                 requestLogVO.setRequestTime(requestLogEntity.getRequestTime());
                 requestLogVO.setStatus(requestLogEntity.getStatus());
                 map.get(key).add(requestLogVO);
-            }else {
+            } else {
                 List<RequestLogVO> logVOS = new ArrayList<>();
                 RequestLogVO requestLogVO = new RequestLogVO();
                 requestLogVO.setRequestTime(requestLogEntity.getRequestTime());
