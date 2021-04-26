@@ -22,8 +22,8 @@ public class Lamp implements Device {
         JSONObject json_status=JSONObject.parseObject(state);
 
         open_state=json_status.getIntValue("openState");
-        lamp_sense=json_state.getIntValue("lampSense");
-        brightness=json_state.getIntValue("brightness");
+        lamp_sense=json_status.getIntValue("lampSense");
+        brightness=json_status.getIntValue("brightness");
         System.out.println("device_id:"+device_id+" credential:"+credential+"  openState:"+open_state+" lampSense:"+lamp_sense+" brightness:"+brightness);
     }
     public String getStatus(){

@@ -98,7 +98,7 @@ public class MqttConfig {
                 System.out.println("device manage message arrived");
                 String verifyResult=new String(message.getPayload());
                 String[] result=verifyResult.split("@");
-                if(!verifyResult.equals("refuse")){
+                if(verifyResult.equals("refuse")){
                     System.out.println("添加设备被拒绝");
                 }
                 else if(result[0].equals("delete")){//删除设备
@@ -130,6 +130,7 @@ public class MqttConfig {
             if (e.getStatus() != null) {
                 DeviceManage.setDeviceStatus(e.getId(), e.getStatus());
             }
+            MqttService.subscribe(rear_end_id, "/shadow/update/" + e.getId(), QOS.QOS2);
         });
     }
 }

@@ -59,7 +59,7 @@ public class DeviceManage {
         Device device=deviceMap.get(device_id);
         device.setStatus(status);
         //通知更新日志表
-        MqttService.publish(String.valueOf(device_id),"/shadow/update"+device_id,status,QOS.QOS1);
+        MqttService.publish(String.valueOf(device_id),"/shadow/update/"+device_id,status,QOS.QOS1);
     }
     //获取设备状态
     public static String getDeviceStatus(long device_id){

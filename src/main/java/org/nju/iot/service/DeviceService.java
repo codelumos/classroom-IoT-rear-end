@@ -63,19 +63,20 @@ public class DeviceService {
 
 	//设备调试
 	public void deviceTest(DeviceTestForm form){
-		JSONObject object = new JSONObject();
-		object.put("openState", form.getOpenState());
+		JSONObject object1 = new JSONObject();
+		JSONObject object2 = new JSONObject();
+		object1.put("openState", form.getOpenState());
 		if (form.getDeviceType() == 0) {
-			object.put("brightness", form.getBrightness());
-			object.put("lampSense", form.getLampSense());
+			object1.put("brightness", form.getBrightness());
+			object1.put("lampSense", form.getLampSense());
 		}
 		if (form.getDeviceType() == 1) {
-			object.put("pattern", form.getPattern());
-			object.put("gear", form.getGear());
-			object.put("temperature", form.getTemperature());
+			object1.put("pattern", form.getPattern());
+			object1.put("gear", form.getGear());
+			object1.put("temperature", form.getTemperature());
 		}
-		object.put("state",object.toJSONString());
-		MqttService.publish(String.valueOf(form.getId()),"/shadow/get/"+form.getId(),object.toJSONString(), QOS.QOS1);
+		object2.put("state",object1.toJSONString());
+		MqttService.publish(String.valueOf(form.getId()),"/shadow/get/"+form.getId(),object2.toJSONString(), QOS.QOS1);
 	}
 
 	//根据规则批量修改
@@ -134,6 +135,33 @@ public class DeviceService {
 		//通知设备端删除设备
 		deviceIds.forEach(d -> MqttService.publish(MqttConfig.device_end_id,"/verify/get","delete@"+d,QOS.QOS1));
 		return true;
+	}
+
+	public List<DeviceTestForm> getStatus(List<Long> ids) {
+		List<DeviceTestForm> forms = new ArrayList<>();
+		ids.forEach(d -> {
+			DeviceTestForm form = new DeviceTestForm();
+			RequestLogEntity logEntity = requestLogDao.findByDeviceId(d);
+			JSONObject object = JSONObject.parseObject(logEntity.getStatus());
+			String state = object.getString("state");
+			JSONObject status = JSONObject.parseObject(state);
+			form.setOpenState(status.getIntValue("openState"));
+			form.setId(d);
+			int type = deviceDao.getOne(d).getDeviceType();
+			form.setDeviceType(type);
+			if (type == 0) {
+				form.setBrightness(status.getIntValue("brightness"));
+				form.setLampSense(status.getIntValue("lampSense"));
+			}
+			if (type == 1) {
+				form.setPattern(status.getIntValue("pattern"));
+				form.setTemperature(status.getIntValue("temperature"));
+				form.setGear(status.getIntValue("gear"));
+			}
+			forms.add(form);
+
+		});
+		return forms;
 	}
 
 }
