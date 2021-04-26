@@ -28,4 +28,5 @@ public class RequestLogController {
 	public Map<String, List<RequestLogVO>> getOverview() {
 		return logService.getOverview();
 	}
+
 }

@@ -16,7 +16,6 @@ import java.sql.Timestamp;
 @Table(name = RequestLogEntity.TABLE)
 public class RequestLogEntity {
     public static final String TABLE = "request_log";
-
     @Id
     private long id;
     private long deviceId;

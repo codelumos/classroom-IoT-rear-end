@@ -24,7 +24,7 @@ public class GroupService {
     @Autowired
     private DeviceDao deviceDao;
 
-    //设备分组信息
+    // 设备分组信息
     public List<GroupVO> getAllGroups() {
         List<GroupVO> groupVOS = new ArrayList<>();
         List<GroupEntity> groups = groupDao.findAll();
@@ -43,7 +43,7 @@ public class GroupService {
         return groupVOS;
     }
 
-    //获取单个设备详情
+    // 获取单个设备详情
     public GroupVO getDetail(long groupId) {
         GroupEntity group = groupDao.getOne(groupId);
         GroupVO groupVO = new GroupVO();
@@ -58,7 +58,7 @@ public class GroupService {
         return groupVO;
     }
 
-    //根据分组获取设备
+    // 根据分组获取设备
     public List<DeviceVO> getDeviceByGroup(long groupId) {
         List<DeviceVO> deviceVOS = new ArrayList<>();
         List<DeviceEntity> deviceEntities = deviceDao.findByGroupId(groupId);
@@ -70,7 +70,7 @@ public class GroupService {
         return deviceVOS;
     }
 
-    //添加分组
+    // 添加分组
     public boolean addGroup(String teamName) {
         GroupEntity groupEntity = new GroupEntity();
         groupEntity.setTeamName(teamName);
@@ -79,13 +79,13 @@ public class GroupService {
         return true;
     }
 
-    //删除分组
+    // 删除分组
     public boolean deleteGroup(List<Long> groupIds) {
         groupIds.forEach(g -> groupDao.deleteById(g));
         return true;
     }
 
-    //获取没有分组的设备
+    // 获取没有分组的设备
     public List<DeviceVO> getDeviceWithoutGroup() {
         List<DeviceVO> deviceVOS = new ArrayList<>();
         List<DeviceEntity> deviceEntities = deviceDao.findAll().stream().filter(d -> d.getGroupId() == 0).collect(Collectors.toList());
@@ -98,7 +98,7 @@ public class GroupService {
         return deviceVOS;
     }
 
-    //为设备添加分组
+    // 为设备添加分组
     public boolean addDeviceToGroup(List<Long> deviceIds, long groupId) {
         deviceIds.forEach(d -> {
             DeviceEntity deviceEntity = deviceDao.getOne(d);
@@ -108,7 +108,7 @@ public class GroupService {
         return true;
     }
 
-    //从分组删除设备
+    // 从分组删除设备
     public boolean deleteFromGroup(List<Long> deviceIds) {
         deviceIds.forEach(d -> {
             DeviceEntity deviceEntity = deviceDao.getOne(d);

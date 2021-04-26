@@ -17,7 +17,7 @@ public class DroolsTest {
         KieSession session = kieContainer.newKieSession();
         // Fact对象，事实对象
         DeviceTestForm form = new DeviceTestForm();
-        DroolsEntity drools = new DroolsEntity("1");
+        DroolsEntity drools = new DroolsEntity("0");
         // 将对象插入到工作内存中
         session.insert(form);
         session.insert(drools);

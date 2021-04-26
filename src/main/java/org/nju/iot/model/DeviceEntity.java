@@ -25,5 +25,4 @@ public class DeviceEntity {
     private Timestamp onlineTime;
     private long groupId = 0;
     private String credential;
-
 }

@@ -16,40 +16,41 @@ public class DeviceManageController {
     @Autowired
     private DeviceService deviceService;
 
-    //创建设备
+    // 创建设备
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public long addDevice(@RequestParam String deviceName,
                           @RequestParam int deviceType) throws Exception {
         return deviceService.addDevice(deviceName, deviceType);
     }
 
-    //设备烧录
+    // 设备烧录
     @RequestMapping(value = "/program", method = RequestMethod.POST)
     public boolean deviceProgram(@RequestParam String credential) {
         return deviceService.deviceConnection(credential);
     }
 
-    //设备列表
+    // 设备列表
     @RequestMapping(value = "/overview", method = RequestMethod.GET)
     public List<DeviceVO> getAllDevices() {
         return deviceService.getDeviceList();
     }
 
-    //设备详情
+    // 设备详情
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public DeviceVO getDeviceInfoById(@RequestParam long deviceId) {
         return deviceService.getDetail(deviceId);
     }
 
-    //删除设备
+    // 删除设备
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public boolean deleteDevices(@RequestParam List<Long> deviceIds) {
         return deviceService.deleteDevices(deviceIds);
     }
 
-    //设备调试
+    // 设备调试
     @RequestMapping(value = "/test", method = RequestMethod.POST)
     public void deviceTest(@RequestBody DeviceTestForm form) {
         deviceService.deviceTest(form);
     }
+
 }
