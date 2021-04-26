@@ -1,22 +1,23 @@
 import org.nju.iot.model.DroolsEntity
 import org.nju.iot.form.DeviceTestForm
 
-rule "关闭设备"
+rule "关闭所有设备"
+    salience 10
+    no-loop true
+    when
+        DroolsEntity(id.equals("0"))
+        $device:DeviceTestForm()
+    then
+        $device.setOpenState(0);
+        System.out.println("命中规则: 关闭所有设备");
+        drools.halt();
+end
+
+rule "普通日间上课"
     salience 10
     no-loop true
     when
         DroolsEntity(id.equals("1"))
-        $device:DeviceTestForm()
-    then
-        $device.setOpenState(0);
-        drools.halt();
-end
-
-rule "日间上课"
-    salience 10
-    no-loop true
-    when
-        DroolsEntity(id.equals("2"))
         $device:DeviceTestForm()
     then
         int type = $device.getDeviceType();
@@ -28,5 +29,114 @@ rule "日间上课"
         } else if(type == 2) {
             $device.setOpenState(1);
         }
+        System.out.println("命中规则: 普通日间上课");
+        drools.halt();
+end
+
+rule "普通夜间上课"
+    salience 10
+    no-loop true
+    when
+        DroolsEntity(id.equals("2"))
+        $device:DeviceTestForm()
+    then
+        int type = $device.getDeviceType();
+        // 0:灯, 1:空调, 2:投影仪
+        if (type == 0) {
+            $device.setOpenState(1);
+        } else if(type == 1) {
+            $device.setOpenState(0);
+        } else if(type == 2) {
+            $device.setOpenState(1);
+        }
+        System.out.println("命中规则: 普通夜间上课");
+        drools.halt();
+end
+
+rule "夏季日间上课"
+    salience 10
+    no-loop true
+    when
+        DroolsEntity(id.equals("3"))
+        $device:DeviceTestForm()
+    then
+        int type = $device.getDeviceType();
+        // 0:灯, 1:空调, 2:投影仪
+        if (type == 0) {
+            $device.setOpenState(0);
+        } else if(type == 1) {
+            $device.setOpenState(1);
+            $device.setGear(3);
+            $device.setPattern(1);
+        } else if(type == 2) {
+            $device.setOpenState(1);
+        }
+        System.out.println("命中规则: 夏季日间上课");
+        drools.halt();
+end
+
+rule "夏季夜间上课"
+    salience 10
+    no-loop true
+    when
+        DroolsEntity(id.equals("4"))
+        $device:DeviceTestForm()
+    then
+        int type = $device.getDeviceType();
+        // 0:灯, 1:空调, 2:投影仪
+        if (type == 0) {
+            $device.setOpenState(1);
+        } else if(type == 1) {
+            $device.setOpenState(0);
+            $device.setGear(2);
+            $device.setPattern(1);
+        } else if(type == 2) {
+            $device.setOpenState(1);
+        }
+        System.out.println("命中规则: 夏季夜间上课");
+        drools.halt();
+end
+
+rule "冬季日间上课"
+    salience 10
+    no-loop true
+    when
+        DroolsEntity(id.equals("5"))
+        $device:DeviceTestForm()
+    then
+        int type = $device.getDeviceType();
+        // 0:灯, 1:空调, 2:投影仪
+        if (type == 0) {
+            $device.setOpenState(0);
+        } else if(type == 1) {
+            $device.setOpenState(0);
+            $device.setGear(2);
+            $device.setPattern(2);
+        } else if(type == 2) {
+            $device.setOpenState(1);
+        }
+        System.out.println("命中规则: 冬季日间上课");
+        drools.halt();
+end
+
+rule "冬季夜间上课"
+    salience 10
+    no-loop true
+    when
+        DroolsEntity(id.equals("6"))
+        $device:DeviceTestForm()
+    then
+        int type = $device.getDeviceType();
+        // 0:灯, 1:空调, 2:投影仪
+        if (type == 0) {
+            $device.setOpenState(1);
+        } else if(type == 1) {
+            $device.setOpenState(0);
+            $device.setGear(3);
+            $device.setPattern(2);
+        } else if(type == 2) {
+            $device.setOpenState(1);
+        }
+        System.out.println("命中规则: 冬季夜间上课");
         drools.halt();
 end

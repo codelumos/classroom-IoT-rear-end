@@ -29,6 +29,7 @@ public class RuleService {
             session.insert(d);
             session.fireAllRules();
             session.dispose();
+            System.out.println("设备: " + d.getId() + ", 执行规则: " + drools.getId());
             // 执行修改调试
             deviceService.deviceTest(d);
         }
