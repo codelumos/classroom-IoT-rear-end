@@ -1,6 +1,6 @@
 package org.nju.iot.dao;
 
-import org.nju.iot.model.drools.RuleEntity;
+import org.nju.iot.model.RuleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

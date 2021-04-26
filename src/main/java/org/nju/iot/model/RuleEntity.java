@@ -1,4 +1,4 @@
-package org.nju.iot.model.drools;
+package org.nju.iot.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

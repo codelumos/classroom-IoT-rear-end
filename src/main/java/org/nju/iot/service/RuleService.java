@@ -5,7 +5,7 @@ import org.kie.api.runtime.KieSession;
 import org.nju.iot.dao.RuleDao;
 import org.nju.iot.form.DeviceTestForm;
 import org.nju.iot.model.DroolsEntity;
-import org.nju.iot.model.drools.RuleEntity;
+import org.nju.iot.model.RuleEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

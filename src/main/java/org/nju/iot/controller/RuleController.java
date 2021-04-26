@@ -2,7 +2,7 @@ package org.nju.iot.controller;
 
 import org.nju.iot.form.DeviceTestForm;
 import org.nju.iot.model.DroolsEntity;
-import org.nju.iot.model.drools.RuleEntity;
+import org.nju.iot.model.RuleEntity;
 import org.nju.iot.service.DeviceService;
 import org.nju.iot.service.RuleService;
 import org.springframework.beans.factory.annotation.Autowired;
