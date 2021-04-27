@@ -81,7 +81,15 @@ public class GroupService {
 
     // 删除分组
     public boolean deleteGroup(List<Long> groupIds) {
-        groupIds.forEach(g -> groupDao.deleteById(g));
+        groupIds.forEach(g -> {
+            List<DeviceEntity> deviceEntities = deviceDao.findByGroupId(g);
+            deviceEntities.forEach(d ->{
+                d.setGroupId(0);
+                deviceDao.save(d);
+            });
+            groupDao.deleteById(g);
+        });
+
         return true;
     }
 
