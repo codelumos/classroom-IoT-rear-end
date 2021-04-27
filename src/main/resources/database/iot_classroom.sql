@@ -12,7 +12,7 @@
  File Encoding         : 65001
 
  Author: HaoNShi
- Date: 20/04/2021 00:11:38
+ Date: 27/04/2021 12:36:41
 */
 
 SET NAMES utf8mb4;
@@ -33,16 +33,29 @@ CREATE TABLE `device`  (
   `credential` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `device_id_uindex`(`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1461 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1481 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of device
 -- ----------------------------
-INSERT INTO `device` VALUES (1447, '教202-空调1', 1, '2021-04-26 23:09:06', '{\"state\":\"{\\\"openState\\\":1,\\\"pattern\\\":1,\\\"temperature\\\":-14,\\\"gear\\\":2}\"}', NULL, 2, '6d4428ff02b5454f9bee72d228b5229a');
-INSERT INTO `device` VALUES (1450, '教202-空调2', 1, '2021-04-21 18:47:14', NULL, NULL, 3, 'c1d242696f2243f48909ebfb6e11ef49');
-INSERT INTO `device` VALUES (1454, '教202-投影仪1', 2, '2021-04-26 23:09:06', '{\"state\":\"{\\\"openState\\\":1}\"}', NULL, 4, '5953dd8b47624bf5a544cbce59324304');
-INSERT INTO `device` VALUES (1456, '教202-投影仪2', 2, '2021-04-26 23:09:06', '{\"state\":\"{\\\"openState\\\":1}\"}', NULL, 0, '5013c50ce1d44fe5a271ea7ea16193c8');
-INSERT INTO `device` VALUES (1457, '教101-灯3', 0, '2021-04-26 23:09:06', '{\"state\":\"{\\\"brightness\\\":0,\\\"openState\\\":1,\\\"lampSense\\\":0}\"}', NULL, 0, '5b11a72a71504e189c86c2a5c6dfe4b5');
+INSERT INTO `device` VALUES (1457, '教101-灯3', 0, '2021-04-27 12:11:46', '{\"state\":\"{\\\"brightness\\\":9,\\\"openState\\\":1,\\\"lampSense\\\":4}\"}', NULL, 1, '5b11a72a71504e189c86c2a5c6dfe4b5');
+INSERT INTO `device` VALUES (1461, '教101-灯1', 0, '2021-04-27 12:04:38', '{\"state\":\"{\\\"brightness\\\":0,\\\"openState\\\":0,\\\"lampSense\\\":0}\"}', NULL, 1, '5438881fba634dab9f67b59ef472290b');
+INSERT INTO `device` VALUES (1462, '教101-灯2', 0, '2021-04-27 12:06:31', '{\"state\":\"{\\\"brightness\\\":0,\\\"openState\\\":0,\\\"lampSense\\\":0}\"}', NULL, 1, 'c4c775322cd1497eba050b6860f49b59');
+INSERT INTO `device` VALUES (1466, '教101-投影仪', 2, '2021-04-27 12:07:25', '{\"state\":\"{\\\"openState\\\":0}\"}', NULL, 1, '7ad735f6acff469da6c5f02e57c445cd');
+INSERT INTO `device` VALUES (1467, '教101-空调1', 1, '2021-04-27 12:07:40', '{\"state\":\"{\\\"openState\\\":0,\\\"temperature\\\":0,\\\"pattern\\\":0,\\\"gear\\\":0}\"}', NULL, 1, '202915d9952a4ea6b1a9b8ac119eafa1');
+INSERT INTO `device` VALUES (1468, '教101-空调2', 1, '2021-04-27 12:07:56', '{\"state\":\"{\\\"openState\\\":0,\\\"temperature\\\":0,\\\"pattern\\\":0,\\\"gear\\\":0}\"}', NULL, 1, '41052d81da1c440bb709d12ef1d3474a');
+INSERT INTO `device` VALUES (1469, '教201-空调2', 1, '2021-04-27 12:01:44', NULL, NULL, 4, '978bc2a2f19e41488bf434ebf2436e82');
+INSERT INTO `device` VALUES (1470, '教201-空调1', 1, '2021-04-27 12:01:47', NULL, NULL, 4, 'b650326549c045e38775c3fb35d269e9');
+INSERT INTO `device` VALUES (1471, '教201-灯1', 0, '2021-04-27 12:01:57', NULL, NULL, 4, 'a06506bdad934cbda0a832e06de2c0db');
+INSERT INTO `device` VALUES (1472, '教201-灯2', 0, '2021-04-27 12:02:00', NULL, NULL, 4, '6f6e8e02cfa34abfb86218d7c90f3dfa');
+INSERT INTO `device` VALUES (1473, '教201-灯3', 0, '2021-04-27 12:02:03', NULL, NULL, 4, 'e1f275307e5548bf9e8cd010e42d1948');
+INSERT INTO `device` VALUES (1474, '教201-投影仪', 2, '2021-04-27 12:02:10', NULL, NULL, 4, '0184674473ab44d19e11bf3542733c39');
+INSERT INTO `device` VALUES (1475, '教301-灯1', 0, '2021-04-27 12:02:19', NULL, NULL, 9, '226a5e6e3afd4301b84be2c443bca752');
+INSERT INTO `device` VALUES (1476, '教301-灯2', 0, '2021-04-27 12:02:22', NULL, NULL, 9, 'd5cf3efb88c1423cbd1603007ab459c2');
+INSERT INTO `device` VALUES (1477, '教301-灯3', 0, '2021-04-27 12:02:25', NULL, NULL, 9, '38102aee461f4a57a3e51e07241b8f9c');
+INSERT INTO `device` VALUES (1478, '教301-空调1', 1, '2021-04-27 12:02:32', NULL, NULL, 9, 'af23223eb77147f4a2f9c088c6fd137d');
+INSERT INTO `device` VALUES (1479, '教301-空调2', 1, '2021-04-27 12:02:36', NULL, NULL, 9, '96e7365648244b85abac00830be9b253');
+INSERT INTO `device` VALUES (1480, '教301-投影仪', 2, '2021-04-27 12:02:42', NULL, NULL, 9, '200b9b4904e54646848b8e524db2634a');
 
 -- ----------------------------
 -- Table structure for request_log
@@ -55,31 +68,17 @@ CREATE TABLE `request_log`  (
   `status` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `request_log_id_uindex`(`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 38 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of request_log
 -- ----------------------------
-INSERT INTO `request_log` VALUES (6, 1447, '2021-04-26 20:18:04', '{\"state\":\"{\\\"openState\\\":0,\\\"temperature\\\":0,\\\"pattern\\\":0,\\\"gear\\\":0}\"}');
-INSERT INTO `request_log` VALUES (9, 1447, '2021-04-26 21:01:47', '{\"state\":\"{\\\"openState\\\":1,\\\"pattern\\\":1,\\\"temperature\\\":-14,\\\"gear\\\":2}\"}');
-INSERT INTO `request_log` VALUES (10, 1454, '2021-04-26 21:05:09', '{\"state\":\"{\\\"openState\\\":0}\"}');
-INSERT INTO `request_log` VALUES (11, 1454, '2021-04-26 21:05:15', '{\"state\":\"{\\\"openState\\\":1}\"}');
-INSERT INTO `request_log` VALUES (12, 1447, '2021-04-26 22:18:15', '{\"state\":\"{\\\"openState\\\":0,\\\"pattern\\\":1,\\\"temperature\\\":-14,\\\"gear\\\":2}\"}');
-INSERT INTO `request_log` VALUES (13, 1454, '2021-04-26 22:19:51', '{\"state\":\"{\\\"openState\\\":0}\"}');
-INSERT INTO `request_log` VALUES (14, 1447, '2021-04-26 22:34:31', '{\"state\":\"{\\\"openState\\\":0,\\\"pattern\\\":1,\\\"temperature\\\":-14,\\\"gear\\\":2}\"}');
-INSERT INTO `request_log` VALUES (15, 1454, '2021-04-26 22:34:31', '{\"state\":\"{\\\"openState\\\":1}\"}');
-INSERT INTO `request_log` VALUES (16, 1456, '2021-04-26 23:00:17', '{\"state\":\"{\\\"openState\\\":0}\"}');
-INSERT INTO `request_log` VALUES (17, 1456, '2021-04-26 23:02:24', '{\"state\":\"{\\\"openState\\\":1}\"}');
-INSERT INTO `request_log` VALUES (18, 1447, '2021-04-26 23:02:24', '{\"state\":\"{\\\"openState\\\":0,\\\"pattern\\\":2,\\\"temperature\\\":-14,\\\"gear\\\":2}\"}');
-INSERT INTO `request_log` VALUES (19, 1454, '2021-04-26 23:02:24', '{\"state\":\"{\\\"openState\\\":1}\"}');
-INSERT INTO `request_log` VALUES (20, 1456, '2021-04-26 23:08:07', '{\"state\":\"{\\\"openState\\\":0}\"}');
-INSERT INTO `request_log` VALUES (21, 1447, '2021-04-26 23:08:07', '{\"state\":\"{\\\"openState\\\":0,\\\"pattern\\\":2,\\\"temperature\\\":-14,\\\"gear\\\":2}\"}');
-INSERT INTO `request_log` VALUES (22, 1454, '2021-04-26 23:08:07', '{\"state\":\"{\\\"openState\\\":0}\"}');
-INSERT INTO `request_log` VALUES (23, 1457, '2021-04-26 23:09:19', '{\"state\":\"{\\\"brightness\\\":0,\\\"openState\\\":0,\\\"lampSense\\\":0}\"}');
-INSERT INTO `request_log` VALUES (24, 1456, '2021-04-26 23:09:28', '{\"state\":\"{\\\"openState\\\":1}\"}');
-INSERT INTO `request_log` VALUES (25, 1457, '2021-04-26 23:09:28', '{\"state\":\"{\\\"brightness\\\":0,\\\"openState\\\":1,\\\"lampSense\\\":0}\"}');
-INSERT INTO `request_log` VALUES (26, 1447, '2021-04-26 23:09:28', '{\"state\":\"{\\\"openState\\\":1,\\\"pattern\\\":1,\\\"temperature\\\":-14,\\\"gear\\\":2}\"}');
-INSERT INTO `request_log` VALUES (27, 1454, '2021-04-26 23:09:28', '{\"state\":\"{\\\"openState\\\":1}\"}');
+INSERT INTO `request_log` VALUES (32, 1461, '2021-04-27 12:04:19', '{\"state\":\"{\\\"brightness\\\":0,\\\"openState\\\":0,\\\"lampSense\\\":0}\"}');
+INSERT INTO `request_log` VALUES (33, 1462, '2021-04-27 12:06:27', '{\"state\":\"{\\\"brightness\\\":0,\\\"openState\\\":0,\\\"lampSense\\\":0}\"}');
+INSERT INTO `request_log` VALUES (34, 1466, '2021-04-27 12:07:21', '{\"state\":\"{\\\"openState\\\":0}\"}');
+INSERT INTO `request_log` VALUES (35, 1467, '2021-04-27 12:07:35', '{\"state\":\"{\\\"openState\\\":0,\\\"temperature\\\":0,\\\"pattern\\\":0,\\\"gear\\\":0}\"}');
+INSERT INTO `request_log` VALUES (36, 1468, '2021-04-27 12:07:51', '{\"state\":\"{\\\"openState\\\":0,\\\"temperature\\\":0,\\\"pattern\\\":0,\\\"gear\\\":0}\"}');
+INSERT INTO `request_log` VALUES (37, 1457, '2021-04-27 12:11:40', '{\"state\":\"{\\\"brightness\\\":9,\\\"openState\\\":1,\\\"lampSense\\\":4}\"}');
 
 -- ----------------------------
 -- Table structure for rule
@@ -122,11 +121,7 @@ CREATE TABLE `team`  (
 -- Records of team
 -- ----------------------------
 INSERT INTO `team` VALUES (1, '教101', '2021-04-20 20:51:05');
-INSERT INTO `team` VALUES (2, '教102', '2021-04-20 20:51:36');
-INSERT INTO `team` VALUES (3, '教103', '2021-04-20 20:51:41');
 INSERT INTO `team` VALUES (4, '教201', '2021-04-20 20:51:48');
-INSERT INTO `team` VALUES (5, '教202', '2021-04-20 20:51:51');
-INSERT INTO `team` VALUES (7, '教222', '2021-04-20 20:52:00');
 INSERT INTO `team` VALUES (9, '教301', '2021-04-21 18:55:42');
 
 SET FOREIGN_KEY_CHECKS = 1;
