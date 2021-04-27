@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DeviceManage {
-    private static final Map<Long, Device> deviceMap = new HashMap<>();//设备集合
+    private static final Map<Long, Device> deviceMap = new HashMap<>();// 设备集合
 
     public DeviceManage() {
     }
@@ -17,9 +17,9 @@ public class DeviceManage {
         return deviceMap.get(device_id) != null;
     }
 
-    //验证
+    // 验证
     public static void Verify(long device_id, String credential, int type) {
-        //发送消息，请求验证
+        // 发送消息，请求验证
         if (MqttService.hasClient(MqttConfig.device_end_id))
             MqttService.publish(MqttConfig.device_end_id, "/verify/update", device_id + "@" + credential + "@" + type, QOS.QOS1);
         else
@@ -32,7 +32,7 @@ public class DeviceManage {
         Lock.setLock(false);
     }
 
-    //添加设备
+    // 添加设备
     public static void addDevice(long device_id, String credential, int type) {
         if (type == 0) {
             Lamp lamp = new Lamp(device_id, credential);
@@ -49,25 +49,25 @@ public class DeviceManage {
             deviceMap.put(device_id, projector);
             CallbackSetter.setDeviceCallback(String.valueOf(device_id));
         }
-        //通知更新日志表
+        // 通知更新日志表
         MqttService.publish(String.valueOf(device_id), "/shadow/update/" + device_id, getDeviceStatus(device_id), QOS.QOS1);
     }
 
-    //删除设备
+    // 删除设备
     public static void deleteDevice(long device_id) {
         if (hasDevice(device_id))
             deviceMap.remove(device_id);
     }
 
-    //设置设备状态
+    // 设置设备状态
     public static void setDeviceStatus(long device_id, String status) {
         Device device = deviceMap.get(device_id);
         device.setStatus(status);
-        //通知更新日志表
+        // 通知更新日志表
         MqttService.publish(String.valueOf(device_id), "/shadow/update/" + device_id, status, QOS.QOS1);
     }
 
-    //获取设备状态
+    // 获取设备状态
     public static String getDeviceStatus(long device_id) {
         Device device = deviceMap.get(device_id);
         return device != null ? device.getStatus() : null;

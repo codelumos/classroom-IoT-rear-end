@@ -29,13 +29,13 @@ public class DeviceService {
     @Autowired
     private RequestLogDao requestLogDao;
 
-    //添加设备
+    // 添加设备
     public long addDevice(String deviceName, int deviceType) throws Exception {
         DeviceEntity device = new DeviceEntity();
         if (deviceDao.findByName(deviceName) != null) {
             return -1;
         }
-		device.setDeviceName(deviceName);
+        device.setDeviceName(deviceName);
         device.setDeviceType(deviceType);
         device.setCreateTime(new Timestamp(System.currentTimeMillis()));
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
@@ -43,15 +43,15 @@ public class DeviceService {
         return deviceDao.save(device).getId();
     }
 
-    //设备烧录
+    // 设备烧录
     public boolean deviceConnection(String credential) {
         DeviceEntity deviceEntity = deviceDao.findByCredential(credential);
-        //验证并添加
+        // 验证并添加
         Lock.setLock(true);
         DeviceManage.Verify(deviceEntity.getId(), deviceEntity.getCredential(), deviceEntity.getDeviceType());
         while (Lock.isLock()) {
         }
-        //查看是否成功烧录设备
+        // 查看是否成功烧录设备
         if (DeviceManage.hasDevice(deviceEntity.getId())) {
             System.out.println("设备烧录成功");
             return true;
@@ -61,7 +61,7 @@ public class DeviceService {
         }
     }
 
-    //设备调试
+    // 设备调试
     public void deviceTest(DeviceTestForm form) {
         JSONObject object1 = new JSONObject();
         JSONObject object2 = new JSONObject();
@@ -79,7 +79,7 @@ public class DeviceService {
         MqttService.publish(String.valueOf(form.getId()), "/shadow/get/" + form.getId(), object2.toJSONString(), QOS.QOS1);
     }
 
-    //根据规则批量修改
+    // 根据规则批量修改
     public void updateStatusByRule(DeviceTestForm form) {
         JSONObject object = new JSONObject();
         object.put("openState", form.getOpenState());
@@ -99,8 +99,7 @@ public class DeviceService {
         }
     }
 
-    //获取设备列表
-    // TODO: 2021/4/21 根据设备status分组展示
+    // 获取设备列表
     public List<DeviceVO> getDeviceList() {
         List<DeviceEntity> entities = deviceDao.findAll();
         List<DeviceVO> deviceVOS = new ArrayList<>();
@@ -116,7 +115,7 @@ public class DeviceService {
         return deviceVOS;
     }
 
-    //获取单个设备详情
+    // 获取单个设备详情
     public DeviceVO getDetail(long deviceId) {
         DeviceEntity deviceEntity = deviceDao.getOne(deviceId);
         DeviceVO deviceVO = new DeviceVO();
@@ -129,10 +128,10 @@ public class DeviceService {
     }
 
 
-    //删除设备
+    // 删除设备
     public boolean deleteDevices(List<Long> deviceIds) {
         deviceIds.forEach(d -> deviceDao.deleteById(d));
-        //通知设备端删除设备
+        // 通知设备端删除设备
         deviceIds.forEach(d -> MqttService.publish(MqttConfig.device_end_id, "/verify/get", "delete@" + d, QOS.QOS1));
         return true;
     }

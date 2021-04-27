@@ -22,7 +22,7 @@ public class Projector implements Device {
         return status.toJSONString();
     }
 
-    //更新设备状态
+    // 更新设备状态
     public void setStatus(String status) {
         JSONObject json_state = JSONObject.parseObject(status);
         String state = json_state.getString("state");

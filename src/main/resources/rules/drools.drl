@@ -9,7 +9,7 @@ rule "关闭所有设备"
         $device:DeviceTestForm()
     then
         $device.setOpenState(0);
-        System.out.println("命中规则: 关闭所有设备");
+        System.out.println("命中规则: " + drools.getRule().getName());
         drools.halt();
 end
 
@@ -29,7 +29,7 @@ rule "普通日间上课"
         } else if(type == 2) {
             $device.setOpenState(1);
         }
-        System.out.println("命中规则: 普通日间上课");
+        System.out.println("命中规则: " + drools.getRule().getName());
         drools.halt();
 end
 
@@ -49,7 +49,7 @@ rule "普通夜间上课"
         } else if(type == 2) {
             $device.setOpenState(1);
         }
-        System.out.println("命中规则: 普通夜间上课");
+        System.out.println("命中规则: " + drools.getRule().getName());
         drools.halt();
 end
 
@@ -71,7 +71,7 @@ rule "夏季日间上课"
         } else if(type == 2) {
             $device.setOpenState(1);
         }
-        System.out.println("命中规则: 夏季日间上课");
+        System.out.println("命中规则: " + drools.getRule().getName());
         drools.halt();
 end
 
@@ -93,7 +93,7 @@ rule "夏季夜间上课"
         } else if(type == 2) {
             $device.setOpenState(1);
         }
-        System.out.println("命中规则: 夏季夜间上课");
+        System.out.println("命中规则: " + drools.getRule().getName());
         drools.halt();
 end
 
@@ -115,7 +115,7 @@ rule "冬季日间上课"
         } else if(type == 2) {
             $device.setOpenState(1);
         }
-        System.out.println("命中规则: 冬季日间上课");
+        System.out.println("命中规则: " + drools.getRule().getName());
         drools.halt();
 end
 
@@ -137,6 +137,6 @@ rule "冬季夜间上课"
         } else if(type == 2) {
             $device.setOpenState(1);
         }
-        System.out.println("命中规则: 冬季夜间上课");
+        System.out.println("命中规则: " + drools.getRule().getName());
         drools.halt();
 end

@@ -31,7 +31,7 @@ public class AirCondition implements Device {
         return status.toJSONString();
     }
 
-    //更新设备状态
+    // 更新设备状态
     public void setStatus(String status) {
         System.out.println(status);
         JSONObject json_state = JSONObject.parseObject(status);
