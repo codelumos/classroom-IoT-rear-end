@@ -26,11 +26,8 @@
             <name>Linglong Shi</name>
             <email>15151850866@163.com</email>
         </developer>
-        <developer>
-            <name>Xuan Shen</name>
-            <email>1422145612@qq.com</email>
-        </developer>
     </developers>
+
     <properties>
         <java.version>1.8</java.version>
         <spring-boot-maven-plugin.version>2.4.5</spring-boot-maven-plugin.version>
@@ -40,6 +37,7 @@
         <android-json.version>0.0.20131108.vaadin1</android-json.version>
         <drools.version>7.52.0.Final</drools.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -72,7 +70,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-
         <!--mqtt配置-->
         <dependency>
             <groupId>org.eclipse.paho</groupId>
@@ -100,7 +97,6 @@
             <version>${android-json.version}</version>
             <scope>compile</scope>
         </dependency>
-
         <!--drools规则引擎-->
         <dependency>
             <groupId>org.drools</groupId>
@@ -132,7 +128,6 @@
             <artifactId>kie-internal</artifactId>
             <version>${drools.version}</version>
         </dependency>
-
     </dependencies>
 
     <build>
