@@ -33,7 +33,6 @@ public class AirCondition implements Device {
 
     // 更新设备状态
     public void setStatus(String status) {
-        System.out.println(status);
         JSONObject json_state = JSONObject.parseObject(status);
         String state = json_state.getString("state");
         JSONObject json_status = JSONObject.parseObject(state);
@@ -42,6 +41,6 @@ public class AirCondition implements Device {
         gear = json_status.getIntValue("gear");
         temperature = json_status.getIntValue("temperature");
         pattern = json_status.getIntValue("pattern");
-        System.out.println("device_id:" + device_id + " credential:" + credential + "  openState:" + open_state + " gear:" + gear + " temperature:" + temperature + " pattern" + pattern);
+
     }
 }

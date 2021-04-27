@@ -29,6 +29,5 @@ public class Projector implements Device {
         JSONObject json_status = JSONObject.parseObject(state);
 
         open_state = json_status.getIntValue("openState");
-        System.out.println("device_id:" + device_id + " credential:" + credential + "  openState:" + open_state);
     }
 }
