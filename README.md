@@ -18,6 +18,14 @@
 
 1. 创建iot_classroom数据库，执行iot_classroom.sql建表和插入数据
 
-2. 修改application.yml中的配置信息
+2. 搭建MQTT服务器，修改clientMock\\MqttService中的MQTT代理服务器配置
 
-3. 从IotApplication入口启动项目
+> MQTT服务器搭建参考以下链接：
+>
+> https://www.cnblogs.com/saryli/p/9760113.html
+>
+> https://blog.csdn.net/qq_38113006/article/details/105655753
+
+3. 修改application.yml中的配置信息
+
+4. 从IotApplication入口启动项目
