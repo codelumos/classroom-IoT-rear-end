@@ -18,7 +18,7 @@ public class RequestLogController {
     private RequestLogService logService;
 
     @RequestMapping(value = "/overview", method = RequestMethod.GET)
-    public Map<String, List<RequestLogVO>> getOverview() {
+    public Map<Long, List<RequestLogVO>> getOverview() {
         return logService.getOverview();
     }
 
