@@ -28,4 +28,4 @@
 
 3. 修改application.yml中的配置信息
 
-4. 从IotApplication入口启动项目
+4. 从IoTApplication入口启动项目
