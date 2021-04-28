@@ -1,6 +1,6 @@
 package org.nju.iot.controller;
 
-import org.nju.iot.form.DeviceTestForm;
+import org.nju.iot.form.DeviceStateForm;
 import org.nju.iot.model.DroolsEntity;
 import org.nju.iot.model.RuleEntity;
 import org.nju.iot.service.DeviceService;
@@ -34,7 +34,7 @@ public class RuleController {
 
     @RequestMapping(value = "/execute", method = RequestMethod.POST)
     public void executeRule(@RequestParam List<Long> deviceIds, @RequestParam String ruleId) {
-        List<DeviceTestForm> device = deviceService.getStatus(deviceIds);
+        List<DeviceStateForm> device = deviceService.getStatus(deviceIds);
         DroolsEntity drools = new DroolsEntity(ruleId);
         ruleService.execute(device, drools);
     }

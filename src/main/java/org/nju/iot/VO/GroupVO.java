@@ -9,6 +9,6 @@ import java.util.List;
 public class GroupVO {
     List<DeviceVO> deviceVOS;
     private long id;
-    private String teamName;
+    private String groupName;
     private Timestamp createTime;
 }

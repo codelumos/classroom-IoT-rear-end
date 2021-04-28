@@ -15,9 +15,9 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = GroupEntity.TABLE)
 public class GroupEntity {
-    public static final String TABLE = "team";
+    public static final String TABLE = "device_group";
     @Id
     private long id;
-    private String teamName;
+    private String groupName;
     private Timestamp createTime;
 }

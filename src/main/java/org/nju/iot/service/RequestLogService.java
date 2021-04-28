@@ -17,7 +17,6 @@ public class RequestLogService {
     @Autowired
     private RequestLogDao requestLogDao;
 
-
     public Map<Long, List<RequestLogVO>> getOverview() {
         Map<Long, List<RequestLogVO>> map = new HashMap<>();
         List<RequestLogEntity> logs = requestLogDao.findAll();

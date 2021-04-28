@@ -3,7 +3,7 @@ package org.nju.iot.form;
 import lombok.Data;
 
 @Data
-public class DeviceTestForm {
+public class DeviceStateForm {
     // 设备ID
     private long id;
     // 设备类型

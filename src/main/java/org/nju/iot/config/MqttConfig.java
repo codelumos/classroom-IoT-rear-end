@@ -10,7 +10,7 @@ import org.nju.iot.dao.DeviceDao;
 import org.nju.iot.dao.RequestLogDao;
 import org.nju.iot.model.DeviceEntity;
 import org.nju.iot.model.RequestLogEntity;
-import org.nju.iot.utils.SpringUtil;
+import org.nju.iot.util.SpringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -39,7 +39,7 @@ public class MqttConfig {
                 System.out.println("rear_end connectionLost");
             }
 
-            public void messageArrived(String topic, MqttMessage message) throws Exception {
+            public void messageArrived(String topic, MqttMessage message) {
                 // 处理更新日志消息
                 if (topic.contains("/shadow/update/")) {
                     System.out.println("rear_end log message arrived");
@@ -96,7 +96,7 @@ public class MqttConfig {
                 System.out.println("DeviceManage connectionLost");
             }
 
-            public void messageArrived(String topic, MqttMessage message) throws Exception {
+            public void messageArrived(String topic, MqttMessage message) {
                 // 收到验证结果消息
                 System.out.println("device manage message arrived");
                 String verifyResult = new String(message.getPayload());

@@ -15,12 +15,11 @@ public class CallbackSetter {
                     System.out.println(device_id + " connectionLost");
                 }
 
-                public void messageArrived(String topic, MqttMessage message) throws Exception {
+                public void messageArrived(String topic, MqttMessage message) {
                     // 处理接收到的消息
                     // 根据设备影子更新设备状态
                     String status = new String(message.getPayload());
                     DeviceManage.setDeviceStatus(Long.parseLong(device_id), status);
-
                     System.out.println("Topic:" + topic + "------设备更新完成");
                 }
 

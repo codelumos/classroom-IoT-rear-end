@@ -10,7 +10,7 @@ import org.nju.iot.constant.Lock;
 import org.nju.iot.constant.QOS;
 import org.nju.iot.dao.DeviceDao;
 import org.nju.iot.dao.RequestLogDao;
-import org.nju.iot.form.DeviceTestForm;
+import org.nju.iot.form.DeviceStateForm;
 import org.nju.iot.model.DeviceEntity;
 import org.nju.iot.model.RequestLogEntity;
 import org.springframework.beans.BeanUtils;
@@ -30,7 +30,7 @@ public class DeviceService {
     private RequestLogDao requestLogDao;
 
     // 添加设备
-    public long addDevice(String deviceName, int deviceType) throws Exception {
+    public long addDevice(String deviceName, int deviceType) {
         DeviceEntity device = new DeviceEntity();
         if (deviceDao.findByName(deviceName) != null) {
             return -1;
@@ -49,8 +49,6 @@ public class DeviceService {
         // 验证并添加
         Lock.setLock(true);
         DeviceManage.Verify(deviceEntity.getId(), deviceEntity.getCredential(), deviceEntity.getDeviceType());
-        while (Lock.isLock()) {
-        }
         // 查看是否成功烧录设备
         if (DeviceManage.hasDevice(deviceEntity.getId())) {
             System.out.println("设备烧录成功");
@@ -62,7 +60,7 @@ public class DeviceService {
     }
 
     // 设备调试
-    public void deviceTest(DeviceTestForm form) {
+    public void deviceDebug(DeviceStateForm form) {
         JSONObject object1 = new JSONObject();
         JSONObject object2 = new JSONObject();
         object1.put("openState", form.getOpenState());
@@ -77,26 +75,6 @@ public class DeviceService {
         }
         object2.put("state", object1.toJSONString());
         MqttService.publish(String.valueOf(form.getId()), "/shadow/get/" + form.getId(), object2.toJSONString(), QOS.QOS1);
-    }
-
-    // 根据规则批量修改
-    public void updateStatusByRule(DeviceTestForm form) {
-        JSONObject object = new JSONObject();
-        object.put("openState", form.getOpenState());
-        if (form.getDeviceType() == 0) {
-            object.put("brightness", form.getBrightness());
-            object.put("lampSense", form.getLampSense());
-        }
-        if (form.getDeviceType() == 1) {
-            object.put("pattern", form.getPattern());
-            object.put("gear", form.getGear());
-            object.put("temperature", form.getTemperature());
-        }
-        object.put("state", object.toJSONString());
-        if (form.getDeviceType() != -1) {
-            List<DeviceEntity> entities = deviceDao.findByType(form.getDeviceType());
-            entities.forEach(e -> MqttService.publish(String.valueOf(e.getId()), "/shadow/get/" + e.getId(), object.toJSONString(), QOS.QOS1));
-        }
     }
 
     // 获取设备列表
@@ -136,10 +114,10 @@ public class DeviceService {
         return true;
     }
 
-    public List<DeviceTestForm> getStatus(List<Long> ids) {
-        List<DeviceTestForm> forms = new ArrayList<>();
+    public List<DeviceStateForm> getStatus(List<Long> ids) {
+        List<DeviceStateForm> forms = new ArrayList<>();
         ids.forEach(d -> {
-            DeviceTestForm form = new DeviceTestForm();
+            DeviceStateForm form = new DeviceStateForm();
             RequestLogEntity logEntity = requestLogDao.findByDeviceId(d);
             JSONObject object = JSONObject.parseObject(logEntity.getStatus());
             String state = object.getString("state");
@@ -158,7 +136,6 @@ public class DeviceService {
                 form.setGear(status.getIntValue("gear"));
             }
             forms.add(form);
-
         });
         return forms;
     }

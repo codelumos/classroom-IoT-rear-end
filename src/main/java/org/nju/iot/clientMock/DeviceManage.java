@@ -1,5 +1,8 @@
 package org.nju.iot.clientMock;
 
+import org.nju.iot.clientMock.impl.AirCondition;
+import org.nju.iot.clientMock.impl.Lamp;
+import org.nju.iot.clientMock.impl.Projector;
 import org.nju.iot.config.MqttConfig;
 import org.nju.iot.constant.Lock;
 import org.nju.iot.constant.QOS;

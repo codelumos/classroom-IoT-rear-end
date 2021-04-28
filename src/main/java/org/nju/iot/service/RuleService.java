@@ -3,7 +3,7 @@ package org.nju.iot.service;
 import org.kie.api.KieBase;
 import org.kie.api.runtime.KieSession;
 import org.nju.iot.dao.RuleDao;
-import org.nju.iot.form.DeviceTestForm;
+import org.nju.iot.form.DeviceStateForm;
 import org.nju.iot.model.DroolsEntity;
 import org.nju.iot.model.RuleEntity;
 import org.slf4j.Logger;
@@ -38,8 +38,8 @@ public class RuleService {
         return ruleDao.save(entity);
     }
 
-    public void execute(List<DeviceTestForm> device, DroolsEntity drools) {
-        for (DeviceTestForm d : device) {
+    public void execute(List<DeviceStateForm> device, DroolsEntity drools) {
+        for (DeviceStateForm d : device) {
             System.out.println("设备: " + d.getId() + ", 执行规则: " + drools.getId());
             // 执行规则
             KieSession session = kieBase.newKieSession();
@@ -48,7 +48,7 @@ public class RuleService {
             session.fireAllRules();
             session.dispose();
             // 执行修改调试
-            deviceService.deviceTest(d);
+            deviceService.deviceDebug(d);
         }
     }
 

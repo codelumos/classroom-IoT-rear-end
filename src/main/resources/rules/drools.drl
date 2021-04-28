@@ -1,12 +1,12 @@
 import org.nju.iot.model.DroolsEntity
-import org.nju.iot.form.DeviceTestForm
+import org.nju.iot.form.DeviceStateForm
 
 rule "关闭所有设备"
     salience 10
     no-loop true
     when
         DroolsEntity(id.equals("0"))
-        $device:DeviceTestForm()
+        $device:DeviceStateForm()
     then
         $device.setOpenState(0);
         System.out.println("命中规则: " + drools.getRule().getName());
@@ -18,7 +18,7 @@ rule "普通日间上课"
     no-loop true
     when
         DroolsEntity(id.equals("1"))
-        $device:DeviceTestForm()
+        $device:DeviceStateForm()
     then
         int type = $device.getDeviceType();
         // 0:灯, 1:空调, 2:投影仪
@@ -38,7 +38,7 @@ rule "普通夜间上课"
     no-loop true
     when
         DroolsEntity(id.equals("2"))
-        $device:DeviceTestForm()
+        $device:DeviceStateForm()
     then
         int type = $device.getDeviceType();
         // 0:灯, 1:空调, 2:投影仪
@@ -58,7 +58,7 @@ rule "夏季日间上课"
     no-loop true
     when
         DroolsEntity(id.equals("3"))
-        $device:DeviceTestForm()
+        $device:DeviceStateForm()
     then
         int type = $device.getDeviceType();
         // 0:灯, 1:空调, 2:投影仪
@@ -80,7 +80,7 @@ rule "夏季夜间上课"
     no-loop true
     when
         DroolsEntity(id.equals("4"))
-        $device:DeviceTestForm()
+        $device:DeviceStateForm()
     then
         int type = $device.getDeviceType();
         // 0:灯, 1:空调, 2:投影仪
@@ -102,7 +102,7 @@ rule "冬季日间上课"
     no-loop true
     when
         DroolsEntity(id.equals("5"))
-        $device:DeviceTestForm()
+        $device:DeviceStateForm()
     then
         int type = $device.getDeviceType();
         // 0:灯, 1:空调, 2:投影仪
@@ -124,7 +124,7 @@ rule "冬季夜间上课"
     no-loop true
     when
         DroolsEntity(id.equals("6"))
-        $device:DeviceTestForm()
+        $device:DeviceStateForm()
     then
         int type = $device.getDeviceType();
         // 0:灯, 1:空调, 2:投影仪

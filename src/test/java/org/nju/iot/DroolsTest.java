@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-import org.nju.iot.form.DeviceTestForm;
+import org.nju.iot.form.DeviceStateForm;
 import org.nju.iot.model.DroolsEntity;
 
 public class DroolsTest {
@@ -16,7 +16,7 @@ public class DroolsTest {
         // 从Kie容器对象中获取会话对象
         KieSession session = kieContainer.newKieSession();
         // Fact对象，事实对象
-        DeviceTestForm form = new DeviceTestForm();
+        DeviceStateForm form = new DeviceStateForm();
         DroolsEntity drools = new DroolsEntity("0");
         // 将对象插入到工作内存中
         session.insert(form);

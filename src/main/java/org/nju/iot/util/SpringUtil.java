@@ -1,4 +1,4 @@
-package org.nju.iot.utils;
+package org.nju.iot.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

@@ -106,22 +106,22 @@ INSERT INTO `rule` VALUES ('5', '冬季日间上课', '打开空调、投影仪�
 INSERT INTO `rule` VALUES ('6', '冬季夜间上课', '打开灯、空调、投影仪，空调设为制热3档', '2021-04-20 00:06:08', '2021-04-20 00:06:08');
 
 -- ----------------------------
--- Table structure for team
+-- Table structure for device_group
 -- ----------------------------
-DROP TABLE IF EXISTS `team`;
-CREATE TABLE `team`  (
+DROP TABLE IF EXISTS `device_group`;
+CREATE TABLE `device_group`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `team_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `group_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `group_id_uindex`(`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of team
+-- Records of device_group
 -- ----------------------------
-INSERT INTO `team` VALUES (1, '教101', '2021-04-20 20:51:05');
-INSERT INTO `team` VALUES (2, '教102', '2021-04-20 20:51:48');
-INSERT INTO `team` VALUES (3, '教103', '2021-04-21 18:55:42');
+INSERT INTO `device_group` VALUES (1, '教101', '2021-04-20 20:51:05');
+INSERT INTO `device_group` VALUES (2, '教102', '2021-04-20 20:51:48');
+INSERT INTO `device_group` VALUES (3, '教103', '2021-04-21 18:55:42');
 
 SET FOREIGN_KEY_CHECKS = 1;

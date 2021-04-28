@@ -71,9 +71,9 @@ public class GroupService {
     }
 
     // 添加分组
-    public boolean addGroup(String teamName) {
+    public boolean addGroup(String groupName) {
         GroupEntity groupEntity = new GroupEntity();
-        groupEntity.setTeamName(teamName);
+        groupEntity.setGroupName(groupName);
         groupEntity.setCreateTime(new Timestamp(System.currentTimeMillis()));
         groupDao.save(groupEntity);
         return true;
@@ -89,7 +89,6 @@ public class GroupService {
             });
             groupDao.deleteById(g);
         });
-
         return true;
     }
 
