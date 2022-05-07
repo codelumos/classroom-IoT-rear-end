@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.5</version>
+        <version>2.6.7</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.nju</groupId>
@@ -30,12 +30,12 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <spring-boot-maven-plugin.version>2.4.5</spring-boot-maven-plugin.version>
-        <spring-integration.version>5.4.6</spring-integration.version>
+        <spring-boot-maven-plugin.version>2.6.7</spring-boot-maven-plugin.version>
+        <spring-integration.version>5.5.11</spring-integration.version>
         <eclipse.paho.client.mqttv3.version>1.2.5</eclipse.paho.client.mqttv3.version>
-        <fastjson.version>1.2.76</fastjson.version>
+        <fastjson.version>2.0.1</fastjson.version>
         <android-json.version>0.0.20131108.vaadin1</android-json.version>
-        <drools.version>7.52.0.Final</drools.version>
+        <drools.version>7.68.0.Final</drools.version>
     </properties>
 
     <dependencies>
